@@ -1,0 +1,132 @@
+:root {
+    --primary-dark: #50614A;
+    --primary-light: #C4E641;
+    --neutral: #E6E9D8;
+    --hover: #668000;
+    --white: #FFFFFF;
+
+    --radius-large: 64px;
+    --radius-medium: 32px;
+    --radius-small:16px;
+
+    --title-large: 72px;
+    --title-medium: 32px;
+
+    --copy-large: 18px;
+    --copy-small: 16px;
+
+    --title-font: "Italiana", sans-serif;
+    --transition: all 0.3s ease-in-out;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: var(--copy-small);
+    color: var(--primary-dark);
+}
+
+
+body{
+    font-family: "Roboto Flex", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    font-variation-settings:
+            "slnt" 0,
+            "wdth" 100,
+            "GRAD" 0,
+            "XOPQ" 96,
+            "XTRA" 468,
+            "YOPQ" 79,
+            "YTAS" 750,
+            "YTDE" -203,
+            "YTFI" 738,
+            "YTLC" 514,
+            "YTUC" 712;
+
+}
+
+
+.navbar {
+    width: 100%;
+    padding: 24px 64px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--white) ;
+    position: fixed;
+}
+
+.navbar-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    list-style-type: none;
+    column-gap: 48px;
+}
+
+.navbar-links  a {
+    text-decoration: none   ;
+}
+
+.navbar-links a:hover {
+    color: var(--hover);
+    transition: var(--transition);
+
+}
+
+.logo {
+    height: 36px;
+    width: auto;
+}
+
+.button{
+    display: flex;
+    flex-direction: row;
+    padding: 8px 24px;
+    text-decoration: none;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    column-gap: 8px;
+}
+
+.primary{
+    background-color: var(--primary-light);
+    border-radius: var(--radius-medium);
+}
+
+.primary:hover{
+    background-color: var(--hover);
+    color: var(--neutral);
+    transition: var(--transition);
+}
+
+.secondary {
+    border: 1px solid var(--primary-dark);
+    border-radius: var(--radius-medium);
+}
+
+.secondary:hover{
+    border-color: var(--hover);
+    transition: var(--transition);
+    color: var(--hover);
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(12,1fr);
+    column-gap: 24px;
+    padding: 64px;
+}
+
