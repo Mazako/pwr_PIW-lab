@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto+Slab:wght@100..900&display=swap');
+
 :root {
     --primary-dark: #50614A;
     --primary-light: #C4E641;
@@ -73,13 +77,17 @@ body{
 }
 
 .navbar-links  a {
-    text-decoration: none   ;
+    text-decoration: none;
 }
 
 .navbar-links a:hover {
     color: var(--hover);
     transition: var(--transition);
 
+}
+
+.active {
+    font-weight: bold;
 }
 
 .logo {
@@ -128,5 +136,24 @@ body{
     grid-template-columns: repeat(12,1fr);
     column-gap: 24px;
     padding: 64px;
+    width: 100%;
+}
+
+.text-small{
+    text-wrap: balance;
+    text-align: justify;
+    text-justify: inter-word;
+    line-height: 24px;
+}
+
+.chip {
+    background-color: var(--white);
+    padding: 8px 16px;
+    border-radius: var(--radius-small);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    column-gap: 8px;
 }
 
