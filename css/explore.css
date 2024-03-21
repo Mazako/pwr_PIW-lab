@@ -1,11 +1,5 @@
 @import "common.css";
 
-.header {
-    font-family: var(--title-font);
-    font-size: var(--title-large);
-    padding-top: 100px;
-    padding-left: 64px;
-}
 
 .hotel-cards {
     background-color: var(--neutral);
@@ -23,7 +17,7 @@
 }
 
 .hotel-card:nth-child(1) > .hotel-card-image {
-    background-image: url("../assets/hotel-card-image-1.png");
+    background-image: url("../assets/explore-page/hotel-card-image-1.png");
 }
 
 .hotel-card:nth-child(2) {
@@ -31,7 +25,7 @@
 }
 
 .hotel-card:nth-child(2) > .hotel-card-image {
-    background-image: url("../assets/hotel-card-image-2.png");
+    background-image: url("../assets/explore-page/hotel-card-image-2.png");
 }
 
 .hotel-card:nth-child(3) {
@@ -39,7 +33,7 @@
 }
 
 .hotel-card:nth-child(3) > .hotel-card-image {
-    background-image: url("../assets/hotel-card-image-3.png");
+    background-image: url("../assets/explore-page/hotel-card-image-3.png");
 }
 
 .hotel-card:nth-child(4) {
@@ -47,7 +41,7 @@
 }
 
 .hotel-card:nth-child(4) > .hotel-card-image {
-    background-image: url("../assets/hotel-card-image-4.png");
+    background-image: url("../assets/explore-page/hotel-card-image-4.png");
 }
 
 .hotel-cards-header {

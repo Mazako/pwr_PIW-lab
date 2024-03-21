@@ -86,6 +86,13 @@ body{
 
 }
 
+.header {
+    font-family: var(--title-font);
+    font-size: var(--title-large);
+    padding-top: 100px;
+    padding-left: 64px;
+}
+
 .active {
     font-weight: bold;
 }
