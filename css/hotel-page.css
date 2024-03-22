@@ -39,6 +39,7 @@
 
 .hotel-right-image-container > img {
     height: 243px;
+    width: 50%;
 }
 
 .hotel-right-info {
@@ -93,6 +94,7 @@ dialog {
     resize: none;
     margin: 24px 0;
     display: block;
+    padding: 24px;
 }
 
 .dialog-buttons {
@@ -103,4 +105,66 @@ dialog {
 .dialog-buttons > button:nth-child(1) {
     border: none;
     outline: none;
+}
+
+
+@media only screen and (max-width: 1256px) {
+
+    .hotel-right-image-container {
+        display: none;
+    }
+    .hotel-right > button {
+        width: 100%;
+    }
+
+}
+
+@media only screen and (max-width: 768px) {
+    dialog {
+        width: 80%;
+    }
+
+    .hotel-left {
+        grid-column: 1 / span 4;
+        border-radius: var(--radius-small);
+    }
+
+    .hotel-right {
+        grid-column: 5 / span 4;
+        margin-left: 24px;
+    }
+
+}
+
+@media only screen and (max-width: 618px) {
+
+    dialog {
+        width: 95%;
+    }
+
+    dialog .text-small {
+        text-align: left;
+        text-justify: none;
+        text-wrap: normal;
+    }
+
+}
+
+
+@media only screen and (max-width: 456px) {
+    .hotel-left {
+        grid-column: 1 / span 4;
+        border-radius: var(--radius-small);
+        height: 240px;
+    }
+
+    .hotel-right {
+        grid-column: 1 / span 4;
+        padding: 0;
+        margin: 0
+    }
+
+    .hotel-right > button {
+        margin-top: 24px;
+    }
 }
