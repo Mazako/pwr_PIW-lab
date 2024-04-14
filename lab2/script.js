@@ -8,6 +8,7 @@ const addListInput = document.getElementById('list-field');
 const addListButton = document.getElementById('add-list');
 const searchTaskInput = document.getElementById('task-search');
 const dialog = document.getElementsByTagName('dialog')[0];
+const searchCaseSensitiveCheckbox = document.getElementById('case-sensitive-checkbox');
 
 // dialog stuff
 let lastTask = null;
@@ -198,11 +199,17 @@ const findValueAndIndex = (array, predicate) => {
 
 const search = (e) => {
     const searchedKey = searchTaskInput.value;
+    const checked = searchCaseSensitiveCheckbox.checked;
+
+    const predicate = checked
+        ? task => task.content.toLowerCase().match(new RegExp(`.*${searchedKey.toLowerCase()}.*`))
+        : task => task.content.match(new RegExp(`.*${searchedKey}.*`));
+
     Object.values(listItems)
         .flatMap(list => list.tasks)
         .forEach(task => {
             const li = document.getElementById(`li-${task.id}`);
-            if (task.content.match(new RegExp(`.*${searchedKey}.*`))) {
+            if (predicate(task)) {
                 li.classList.add('d-flex');
                 li.classList.remove('d-none');
             } else {
@@ -216,6 +223,8 @@ const search = (e) => {
 addTaskButton.addEventListener('click', addTask);
 addListButton.addEventListener('click', addList);
 searchTaskInput.addEventListener('input', search)
+searchCaseSensitiveCheckbox.addEventListener('input', search);
+
 document.addEventListener('keydown', e => {
     if ((e.key === 'z' || e.key === 'Z') && e.ctrlKey) {
         e.preventDefault();
