@@ -15,3 +15,7 @@
 .task-list {
     min-height: 160px;
 }
+
+#list-select {
+    width: 120px;
+}

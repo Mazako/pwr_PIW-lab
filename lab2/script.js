@@ -1,17 +1,20 @@
 "use strict";
 // DOM elements
-const addTaskInput = document.getElementById("task-field");
-const addButton = document.getElementById("add-task");
-const tasksSelect = document.getElementById("list-select");
+const listMainContainer = document.getElementById('list-main-container');
+const addTaskInput = document.getElementById('task-field');
+const addTaskButton = document.getElementById('add-task');
+const tasksSelect = document.getElementById('list-select');
+const addListInput = document.getElementById('list-field');
+const addListButton = document.getElementById('add-list');
+const searchTaskInput = document.getElementById('task-search');
 const dialog = document.getElementsByTagName('dialog')[0];
 
 // dialog stuff
 let lastTask = null;
 let currTaskId = 1;
-let currListId = 1;
-let listItems = [];
+let currListId = 2;
 
-const lists = {
+const listItems = {
     '1': {
         displayName: 'Zadania',
         tasks: []
@@ -26,6 +29,35 @@ const addClassString = (element, str) => {
         })
 }
 
+const addList = () => {
+    const listName = addListInput.value;
+    const id = (currListId++).toString();
+
+    listItems[id] = {
+        displayName: listName,
+        tasks: []
+    };
+
+    const ul = document.createElement('ul');
+    ul.id = `tasks-list-${id}`
+    addClassString(ul, 'p-0 tasks-unordered-list');
+
+    const h3 = document.createElement('h3');
+    addClassString(h3, 'text-center text-primary');
+    h3.innerText = listName;
+
+    ul.appendChild(h3);
+
+    listMainContainer.appendChild(ul);
+
+    const option = document.createElement("option");
+    option.value = id;
+    option.innerText = listName;
+    tasksSelect.appendChild(option);
+    addListInput.value = '';
+
+}
+
 const addTask = () => {
     const taskName = addTaskInput.value;
     const selectedValue = tasksSelect.value;
@@ -37,7 +69,7 @@ const addTask = () => {
     const task = createTask(taskName);
     listItems[selectedValue].tasks.push(task);
 
-    const li = createTaskDOM(task);
+    const li = createTaskDOM(task, selectedValue);
     document.getElementById(`tasks-list-${selectedValue}`).appendChild(li);
     addTaskInput.value = '';
 }
@@ -58,12 +90,18 @@ const createTask = (content) => {
 
                 dateP.innerText = '';
                 dateP.style.display = 'none';
+
+                ref.classList.remove('bg-secondary-subtle');
+                ref.classList.add('bg-primary-subtle');
             } else {
                 contentP.style.textDecoration = 'line-through';
                 contentP.style.color = 'grey';
 
                 dateP.innerText = `Zakończono: ${createCurrentDateStr()}`;
                 dateP.style.display = 'block';
+                ref.classList.remove('bg-primary-subtle');
+                ref.classList.add('bg-secondary-subtle');
+
             }
             this.done = !this.done;
         }
@@ -78,7 +116,7 @@ const createTaskDOM = (item, listId) => {
     const removeButton = document.createElement('button');
     const div = document.createElement('div');
 
-    addClassString(li, 'border border-black list-unstyled p-xl-2 rounded-3 d-flex flex-column task-list bg-primary-subtle');
+    addClassString(li, 'border border-black list-unstyled p-xl-2 rounded-3 d-flex flex-column task-list bg-primary-subtle my-xxl-2');
     addClassString(div, 'd-flex flex-row-reverse justify-content-between align-items-center');
     addClassString(contentParagraph, 'text-break task-list-p');
     addClassString(dateParagraph, 'p-0 m-0 task-list-date');
@@ -109,12 +147,14 @@ const createCurrentDateStr = () => {
     return `${date.getDay()}/${date.getMonth() + 1}/${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}`;
 }
 
-const removeTask = id => {
-    lastTask = findValueAndIndex(listItems, item => item.id === id);
-    listItems = listItems.filter(item => item.id !== id);
+const removeTask = (taskId, listId) => {
+    const list = listItems[listId].tasks;
+    lastTask = findValueAndIndex(list, item => item.id === taskId);
+    lastTask.listId = listId;
+    listItems[listId].tasks = list.filter(item => item.id !== taskId);
 
     if (lastTask) {
-        document.getElementById(`li-${id}`).remove();
+        document.getElementById(`li-${taskId}`).remove();
 
     }
 }
@@ -124,10 +164,12 @@ const redoTask = () => {
         return;
     }
 
-    const li = createTaskDOM(lastTask.value);
+    const li = createTaskDOM(lastTask.value, lastTask.listId);
 
-    listItems.splice(lastTask.index, 0, lastTask.value);
-    const beforeId = listItems[lastTask.index + 1]?.id;
+    const tasksList = document.getElementById(`tasks-list-${lastTask.listId}`);
+
+    listItems[lastTask.listId].tasks.splice(lastTask.index, 0, lastTask.value);
+    const beforeId = listItems[lastTask.listId].tasks[lastTask.index + 1]?.id;
     const beforeLi = document.getElementById(`li-${beforeId}`)
     tasksList.insertBefore(li, beforeLi);
 
@@ -154,8 +196,26 @@ const findValueAndIndex = (array, predicate) => {
     }
 }
 
+const search = (e) => {
+    const searchedKey = searchTaskInput.value;
+    Object.values(listItems)
+        .flatMap(list => list.tasks)
+        .forEach(task => {
+            const li = document.getElementById(`li-${task.id}`);
+            if (task.content.match(new RegExp(`.*${searchedKey}.*`))) {
+                li.classList.add('d-flex');
+                li.classList.remove('d-none');
+            } else {
+                li.classList.remove('d-flex');
+                li.classList.add('d-none');
+            }
+        })
+}
+
 //add eventListeners
-addButton.addEventListener('click', addTask);
+addTaskButton.addEventListener('click', addTask);
+addListButton.addEventListener('click', addList);
+searchTaskInput.addEventListener('input', search)
 document.addEventListener('keydown', e => {
     if ((e.key === 'z' || e.key === 'Z') && e.ctrlKey) {
         e.preventDefault();
