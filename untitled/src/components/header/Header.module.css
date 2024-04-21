@@ -1,0 +1,26 @@
+@import url('../../index.css');
+
+
+.header {
+    font-family: var(--title-font);
+    font-size: var(--title-large);
+    padding-top: 100px;
+    padding-left: 64px;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .header {
+        text-align: center;
+        padding: 72px 12px 10px;
+    }
+}
+
+@media only screen and (max-width: 456px) {
+    .header {
+        font-size: var(--title-medium);
+        text-align: center;
+        padding: 95px 16px 10px;
+
+    }
+}

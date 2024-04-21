@@ -1,4 +1,5 @@
 "use strict";
+
 // DOM elements
 const listMainContainer = document.getElementById('list-main-container');
 const addTaskInput = document.getElementById('task-field');
@@ -16,11 +17,11 @@ const warningModalMessage = document.getElementById('warning-modal-message');
 const warningModalRemoveButton = document.getElementById('warning-modal-remove-button');
 
 const createAndShowRemoveModal = (task, listId) => {
+    task.toggle();
     warningModalMessage.innerHTML = `Czy na pewno chcesz usunąć zadanie o treści: "${task.content}"`;
     warningModalRemoveButton.onclick = () => removeTask(task.id, listId);
     warningModal.show();
-}
-
+};
 
 // tasks stuff
 let lastTask = null;
@@ -58,7 +59,7 @@ const addList = () => {
     };
 
     const ul = document.createElement('ul');
-    ul.id = `tasks-list-${id}`
+    ul.id = `tasks-list-${id}`;
     addClassString(ul, 'p-0 tasks-unordered-list');
 
     const h3 = document.createElement('h3');
@@ -74,15 +75,14 @@ const addList = () => {
     option.innerText = listName;
     tasksSelect.appendChild(option);
     addListInput.value = '';
-
-}
+};
 
 const addTask = () => {
     const taskName = addTaskInput.value;
     const selectedValue = tasksSelect.value;
 
     if (taskName.trim() === '') {
-        emptyInputModal.show()
+        emptyInputModal.show();
         return;
     }
     const task = createTask(taskName);
@@ -91,7 +91,7 @@ const addTask = () => {
     const li = createTaskDOM(task, selectedValue);
     document.getElementById(`tasks-list-${selectedValue}`).appendChild(li);
     addTaskInput.value = '';
-}
+};
 
 const createTask = (content) => {
     return {
@@ -120,13 +120,11 @@ const createTask = (content) => {
                 dateP.style.display = 'block';
                 ref.classList.remove('bg-primary-subtle');
                 ref.classList.add('bg-secondary-subtle');
-
             }
             this.done = !this.done;
         }
     };
-
-}
+};
 
 const createTaskDOM = (item, listId) => {
     const li = document.createElement('li');
@@ -142,9 +140,7 @@ const createTaskDOM = (item, listId) => {
     addClassString(removeButton, 'btn btn-danger btn-sm rounded-pill');
 
     contentParagraph.innerText = item.content;
-
     dateParagraph.style.display = 'none';
-
     removeButton.innerText = 'X';
     removeButton.classList.add('task-remove-button', 'btn', 'btn-danger', 'btn-sm', 'align-self-end', 'rounded-pill');
 
@@ -156,15 +152,15 @@ const createTaskDOM = (item, listId) => {
     li.id = `li-${item.id}`;
 
     li.addEventListener('click', () => item.toggle());
-    removeButton.addEventListener('click', () => createAndShowRemoveModal(item, listId))
+    removeButton.addEventListener('click', () => createAndShowRemoveModal(item, listId));
 
     return li;
-}
+};
 
 const createCurrentDateStr = () => {
     const date = new Date();
     return `${date.getDay()}/${date.getMonth() + 1}/${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}`;
-}
+};
 
 const removeTask = (taskId, listId) => {
     const list = listItems[listId].tasks;
@@ -174,9 +170,8 @@ const removeTask = (taskId, listId) => {
 
     if (lastTask) {
         document.getElementById(`li-${taskId}`).remove();
-
     }
-}
+};
 
 const redoTask = () => {
     if (!lastTask) {
@@ -189,7 +184,7 @@ const redoTask = () => {
 
     listItems[lastTask.listId].tasks.splice(lastTask.index, 0, lastTask.value);
     const beforeId = listItems[lastTask.listId].tasks[lastTask.index + 1]?.id;
-    const beforeLi = document.getElementById(`li-${beforeId}`)
+    const beforeLi = document.getElementById(`li-${beforeId}`);
     tasksList.insertBefore(li, beforeLi);
 
     if (lastTask.value.done) {
@@ -198,7 +193,7 @@ const redoTask = () => {
     }
 
     lastTask = null;
-}
+};
 
 const findValueAndIndex = (array, predicate) => {
     for (let i = 0; i < array.length; i++) {
@@ -213,7 +208,7 @@ const findValueAndIndex = (array, predicate) => {
         value: undefined, // Undefined because Array.find() returns undefined when empty
         index: -1
     };
-}
+};
 
 const search = (e) => {
     const searchedKey = searchTaskInput.value;
@@ -234,13 +229,13 @@ const search = (e) => {
                 li.classList.remove('d-flex');
                 li.classList.add('d-none');
             }
-        })
-}
+        });
+};
 
-//add eventListeners
+// Add eventListeners
 addTaskButton.addEventListener('click', addTask);
 addListButton.addEventListener('click', addList);
-searchTaskInput.addEventListener('input', search)
+searchTaskInput.addEventListener('input', search);
 searchCaseSensitiveCheckbox.addEventListener('input', search);
 
 document.addEventListener('keydown', e => {
@@ -248,5 +243,4 @@ document.addEventListener('keydown', e => {
         e.preventDefault();
         redoTask();
     }
-})
-
+});
