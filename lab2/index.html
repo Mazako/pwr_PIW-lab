@@ -14,47 +14,86 @@
     <link rel="stylesheet" href="css.css"/>
 </head>
 <body class="bg-dark-subtle">
-<dialog>
-    <h2>Treść taska nie może być pusta!!</h2>
-    <button id="dialogClose">Zamknij</button>
-</dialog>
 
+<!--Empty input-->
+<section class="modal" tabindex="-1" id="empty-input-modal">
+    <section class="modal-dialog">
+        <section class="modal-content">
+            <article class="modal-header">
+                <h5 class="modal-title">Niepoprawny input</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </article>
+            <article class="modal-body">
+                <p>Treść nie może być pusta</p>
+            </article>
+            <article class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Okej</button>
+            </article>
+        </section>
+    </section>
+</section>
+
+<!--Remove task modal-->
+<section class="modal" tabindex="-1" id="warning-modal">
+    <section class="modal-dialog">
+        <section class="modal-content">
+            <article class="modal-header">
+                <h5 class="modal-title">Usunięcie taska</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </article>
+            <article class="modal-body">
+                <p id="warning-modal-message">Czy na pewno chcesz usunąć zadanie o treści: "Słodowa kosior melanż 8)"</p>
+                <div class="alert alert-info" role="alert">
+                    Będziesz mógł cofnąć tę akcję, klikając Ctrl+Z
+                </div>
+            </article>
+            <article class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="warning-modal-remove-button">Tak</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Nie</button>
+            </article>
+        </section>
+    </section>
+</section>
+
+
+
+<!--page-->
 <h1 class="text-center display-1">Todo lista</h1>
-<div class="d-flex justify-content-around">
+<section class="d-flex justify-content-around">
 
-    <div class="d-flex align-items-center">
+    <article class="d-flex align-items-center">
         <label for="list-select" class="text-nowrap">Aktualna lista: </label>
         <select id="list-select" class="form-select">
             <option value="1"> Zadania</option>
         </select>
-    </div>
+    </article>
 
-    <div class="d-flex align-items-center justify-content-center">
+    <article class="d-flex align-items-center justify-content-center">
         <input type="text" placeholder="wpisz zadanie" id="task-field" class="form-control"/>
         <button id="add-task" class="btn btn-primary text-nowrap">Dodaj</button>
-    </div>
+    </article>
 
-    <div class="d-flex align-items-center justify-content-center">
+    <article class="d-flex align-items-center justify-content-center">
         <input type="text" placeholder="Wpisz nazwę listy" id="list-field" class="form-control"/>
         <button id="add-list" class="btn btn-primary text-nowrap">Dodaj</button>
-    </div>
+    </article>
 
-    <div class="d-flex align-items-center gap-3">
+    <article class="d-flex align-items-center gap-3">
         <input type="text" placeholder="Wyszukaj taski po nazwie" id="task-search" class="form-control"/>
         <div class="form-check form-check-inline">
             <input type="checkbox" class="form-check-input" id="case-sensitive-checkbox">
             <label for="case-sensitive-checkbox" class="form-check-label text-nowrap">A === a?</label>
         </div>
 
-    </div>
+    </article>
 
-</div>
+</section>
 
-<div class="d-flex gap-xxl-4 px-xxl-5 my-xxl-5" id="list-main-container">
+<section class="d-flex gap-xxl-4 px-xxl-5 my-xxl-5" id="list-main-container">
     <ul id="tasks-list-1" class="p-0 tasks-unordered-list">
         <h3 class="text-center text-primary">Zadania</h3>
     </ul>
-</div>
+</section>
 
 <script src="script.js"></script>
 </body>

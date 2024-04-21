@@ -7,10 +7,22 @@ const tasksSelect = document.getElementById('list-select');
 const addListInput = document.getElementById('list-field');
 const addListButton = document.getElementById('add-list');
 const searchTaskInput = document.getElementById('task-search');
-const dialog = document.getElementsByTagName('dialog')[0];
 const searchCaseSensitiveCheckbox = document.getElementById('case-sensitive-checkbox');
 
-// dialog stuff
+const emptyInputModal = new bootstrap.Modal(document.getElementById('empty-input-modal'));
+
+const warningModal = new bootstrap.Modal(document.getElementById('warning-modal'));
+const warningModalMessage = document.getElementById('warning-modal-message');
+const warningModalRemoveButton = document.getElementById('warning-modal-remove-button');
+
+const createAndShowRemoveModal = (task, listId) => {
+    warningModalMessage.innerHTML = `Czy na pewno chcesz usunąć zadanie o treści: "${task.content}"`;
+    warningModalRemoveButton.onclick = () => removeTask(task.id, listId);
+    warningModal.show();
+}
+
+
+// tasks stuff
 let lastTask = null;
 let currTaskId = 1;
 let currListId = 2;
@@ -20,18 +32,24 @@ const listItems = {
         displayName: 'Zadania',
         tasks: []
     }
-}
+};
 
 const addClassString = (element, str) => {
     str.split(' ')
         .map(s => s.trim())
         .forEach(s => {
             element.classList.add(s);
-        })
-}
+        });
+};
 
 const addList = () => {
     const listName = addListInput.value;
+
+    if (listName.trim() === '') {
+        emptyInputModal.show();
+        return;
+    }
+
     const id = (currListId++).toString();
 
     listItems[id] = {
@@ -64,7 +82,7 @@ const addTask = () => {
     const selectedValue = tasksSelect.value;
 
     if (taskName.trim() === '') {
-        dialog.showModal();
+        emptyInputModal.show()
         return;
     }
     const task = createTask(taskName);
@@ -138,7 +156,7 @@ const createTaskDOM = (item, listId) => {
     li.id = `li-${item.id}`;
 
     li.addEventListener('click', () => item.toggle());
-    removeButton.addEventListener('click', () => removeTask(item.id, listId))
+    removeButton.addEventListener('click', () => createAndShowRemoveModal(item, listId))
 
     return li;
 }
@@ -188,13 +206,13 @@ const findValueAndIndex = (array, predicate) => {
             return {
                 value: array[i],
                 index: i
-            }
+            };
         }
     }
     return {
-        value: undefined, // Undefined because Array.find() returns undefined
+        value: undefined, // Undefined because Array.find() returns undefined when empty
         index: -1
-    }
+    };
 }
 
 const search = (e) => {
