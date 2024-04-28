@@ -16,5 +16,5 @@ export const Navbar: FC = () => {
             </ul>
             <button className="button primary hidden">Menu</button>
         </nav>
-    )
-}
+    );
+};
