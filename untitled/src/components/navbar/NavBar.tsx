@@ -1,14 +1,24 @@
 import styles from './NavBar.module.css'
 import React, {FC} from "react";
+import {NavLink} from "react-router-dom";
+
 
 export const Navbar: FC = () => {
+    const navLinkFactory = (to: string, text: string) => {
+        return (
+                <NavLink to={to} className={(active) => active.isActive ? styles.active : ''}>
+                    {text}
+                </NavLink>
+        );
+    }
+
     return (
         <nav className={styles.navbar}>
-            <img src="assets/icons/logo.svg" className={styles.logo} alt="logo"/>
+            <img src="/assets/icons/logo.svg" className={styles.logo} alt="logo"/>
 
             <ul className={styles.navbarLinks}>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Find offers</a></li>
+                <li>{navLinkFactory('/', 'Home')}</li>
+                <li>{navLinkFactory('/browse', 'Find offers')}</li>
                 <li><a href="#">Add new offers</a></li>
                 <li><a href="#">My offers</a></li>
                 <li><a href="#">Favorites</a></li>

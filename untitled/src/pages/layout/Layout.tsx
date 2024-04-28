@@ -3,10 +3,10 @@ import {Navbar} from "../../components/navbar/NavBar";
 import {Outlet} from "react-router";
 
 export const Layout: FC = () => {
-    return(
+    return (
         <main>
-        <Navbar />
-        <Outlet />
+            <Navbar/>
+            <Outlet/>
         </main>
     )
 }

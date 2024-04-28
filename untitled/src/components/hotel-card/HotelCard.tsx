@@ -1,28 +1,26 @@
 import {FC, useState} from "react";
 import styles from './HotelCard.module.css';
 import {BasicHotelCardProps} from "./props";
+import {createRateStr} from "../../utils/utils";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../app/Store";
+import {toggleFavorite} from "../../features/HotelsSlice";
+import {useNavigate} from "react-router";
 
 
-const createRateStr = (rate: number): string => {
-    let result = '';
-    for (let i = 1; i <= 5; i++) {
-        result += i <= rate ? '★' : '☆';
-    }
-    return result;
-}
-
+//TODO make proper width of buttons
 export const HotelCard: FC<BasicHotelCardProps> = (props) => {
-    const [favorite, setFavorite] = useState(props.favorite);
-
+    const dispatch: AppDispatch = useDispatch()
     const handleFavoriteClick = () => {
-        setFavorite(f => !f);
+        dispatch(toggleFavorite(props.id));
     };
+    const navigate = useNavigate()
 
-    const renderButton = () => {
+    const renderFav = () => {
         if (props.showFavorite) {
             return (
                 <button>
-                    <img src={favorite ? '/assets/icons/filled-heart.svg' : '/assets/icons/empty-heart.svg'}
+                    <img src={props.favorite ? '/assets/icons/filled-heart.svg' : '/assets/icons/empty-heart.svg'}
                          onClick={handleFavoriteClick}
                          alt='Heart icon'/>
                 </button>
@@ -34,8 +32,7 @@ export const HotelCard: FC<BasicHotelCardProps> = (props) => {
         const buttons = []
         if (props.showViewOfferButton) {
             buttons.push(
-                <button className="button primary" onClick={() => {
-                }}>
+                <button className="button primary" onClick={() => navigate(`/hotel/${props.id}`)}>
                     View offer
                     <img src="/assets/icons/arrow.svg" alt="Arrow"/>
                 </button>
@@ -59,7 +56,7 @@ export const HotelCard: FC<BasicHotelCardProps> = (props) => {
                 backgroundImage: `url(${props.imgPath})`
             }}>
             <p className="chip">{props.location}</p>
-                {renderButton()}
+                {renderFav()}
             </article>
             <p className={styles.hotelCardName}>{props.name}</p>
             <p className="text-small">{props.description}</p>

@@ -26,8 +26,12 @@
 .navbarLinks a:hover {
     color: var(--hover);
     transition: var(--transition);
-
 }
+
+.active {
+    font-weight: bold;
+}
+
 
 .logo {
     height: 36px;

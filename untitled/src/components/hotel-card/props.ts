@@ -1,15 +1,13 @@
-import {ReactNode} from "react";
-
 export interface BasicHotelCardProps {
+    id: number
     name: string,
     description: string,
     location: string,
     rate: number,
     pricePerRoom: number
-    favorite?: boolean,
+    favorite: boolean,
     showFavorite: boolean,
-    imgPath: string
-    onFavorite?: () => void,
     showViewOfferButton: boolean,
+    imgPath: string
     onEdit?: () => void
 }

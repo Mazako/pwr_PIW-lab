@@ -1,20 +1,26 @@
-import {FC, ReactNode} from "react";
+import {ChangeEvent, FC, ReactNode, useState} from "react";
 import styles from './HotelBrowser.module.css';
 
 interface HotelBrowserProps {
-    title: string,
+    title?: string,
     serachBarTitle: string,
-    children: ReactNode
+    inputValue: string,
+    onInputChange: (e: ChangeEvent<HTMLInputElement>) => void,
+    children?: ReactNode
 
 }
 
-export const HotelBrowser: FC<HotelBrowserProps> = ({title, serachBarTitle, children}) => {
+export const HotelBrowser: FC<HotelBrowserProps> = ({title,
+                                                        serachBarTitle,
+                                                        inputValue,
+                                                        onInputChange,
+                                                        children}) => {
     return (
         <section className={styles.hotelCards}>
             <article className={styles.hotelCardsHeader}>
                 {title}
             </article>
-            <input className={styles.searchbar} placeholder={serachBarTitle}/>
+            <input className={styles.searchbar} placeholder={serachBarTitle} value={inputValue} onChange={onInputChange}/>
             <section className="grid">
                 {children}
             </section>
