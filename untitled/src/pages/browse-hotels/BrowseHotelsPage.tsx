@@ -7,7 +7,7 @@ export const BrowseHotelsPage: FC = () => {
         <section>
             <Header title='Welcome, your tranquility oasis awaits'/>
             <HotelBrowser title='Explore the hotels'
-                          serachBarTitle='Search by hotel name, place, description etc '
+                          searchBarTitle='Search by hotel name, place, description etc '
                           showViewOffer={true}
                           showFavorites={true}
                           favoritesOnly={false}/>

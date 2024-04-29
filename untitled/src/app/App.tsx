@@ -1,12 +1,12 @@
 import React from 'react';
-
+import '../dialog-base.css';
 import {createBrowserRouter, createRoutesFromElements, Route} from "react-router-dom";
 import {Layout} from "../pages/layout/Layout";
 import {RouterProvider} from "react-router";
 import {BrowseHotelsPage} from "../pages/browse-hotels/BrowseHotelsPage";
-import {ReadOnlyHotelPage} from "../pages/read-only-hotel-page/ReadOnlyHotelPage";
 import {FavoriteOffersPage} from "../pages/favorite-offers/FavoriteOffersPage";
 import {MyOffersPage} from "../pages/my-offers/MyOffersPage";
+import {MainHotelPage} from "../pages/hotel-page/MainHotelPage";
 
 const App: React.FC = () => {
     const router = createBrowserRouter(createRoutesFromElements([
@@ -14,7 +14,7 @@ const App: React.FC = () => {
             <Route path='/browse' element={<BrowseHotelsPage/>}/>
             <Route path='/favorite' element={<FavoriteOffersPage/>}/>
             <Route path='/my-offers' element={<MyOffersPage/>}/>
-            <Route path='/hotel/:hotelId' element={<ReadOnlyHotelPage/>}/>
+            <Route path='/hotel/:hotelId' element={<MainHotelPage/>}/>
         </Route>
     ]))
 

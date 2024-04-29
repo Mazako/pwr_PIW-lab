@@ -7,7 +7,7 @@ export const FavoriteOffersPage: FC = () => {
     return (
         <section>
             <Header title='Favorite offers'/>
-            <HotelBrowser serachBarTitle='Search by hotel name, place, description etc '
+            <HotelBrowser searchBarTitle='Search by hotel name, place, description etc '
                           showViewOffer={true}
                           showFavorites={true}
                           favoritesOnly={true}/>

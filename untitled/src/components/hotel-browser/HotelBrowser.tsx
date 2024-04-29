@@ -1,4 +1,4 @@
-import {ChangeEvent, FC, ReactNode, useState} from "react";
+import {FC, useState} from "react";
 import styles from './HotelBrowser.module.css';
 import {useSelector} from "react-redux";
 import {RootState} from "../../app/Store";
@@ -7,25 +7,33 @@ import {HotelCard} from "../hotel-card/HotelCard";
 
 interface HotelBrowserProps {
     title?: string,
-    serachBarTitle: string,
+    searchBarTitle: string,
     favoritesOnly: boolean,
     showViewOffer: boolean,
-    showFavorites: boolean,
-
-
+    showFavorites: boolean
+    onEdit?: (id: number) => void,
 }
 
 export const HotelBrowser: FC<HotelBrowserProps> = (props) => {
     const [text, setText] = useState('');
-    const hotels = useSelector((state: RootState) => searchableFirstFourHotelsSelector(state, text, props.favoritesOnly));
+    const hotels = useSelector((state: RootState) => searchableFirstFourHotelsSelector(state, text, props.favoritesOnly, props.onEdit !== undefined));
 
+    const editHandler = (id: number) => {
+        if (props.onEdit) {
+            // @ts-ignore
+            return () => props.onEdit(id);
+        } else {
+            return undefined;
+        }
+    }
 
     return (
         <section className={styles.hotelCards} style={!props.title ? {paddingTop: 24} : {}}>
             <article className={styles.hotelCardsHeader}>
                 {props.title}
             </article>
-            <input className={styles.searchbar} placeholder={props.serachBarTitle} value={text} onChange={e => setText(e.target.value)}/>
+            <input className={styles.searchbar} placeholder={props.searchBarTitle} value={text}
+                   onChange={e => setText(e.target.value)}/>
             <section className="grid">
                 {
                     hotels.map((hotel) => {
@@ -38,9 +46,10 @@ export const HotelBrowser: FC<HotelBrowserProps> = (props) => {
                                        name={hotel.name}
                                        description={hotel.shortDescription}
                                        location={hotel.location}
-                                       rate={hotel.rate}
+                                       rate={hotel.localCategory}
                                        pricePerRoom={hotel.pricePerRoom}
-                                       imgPath={hotel.imgPath}/>
+                                       imgPath={hotel.imgPath}
+                                       onEdit={editHandler(hotel.id)}/>
                         );
                     })
                 }

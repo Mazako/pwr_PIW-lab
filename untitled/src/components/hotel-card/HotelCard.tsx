@@ -32,7 +32,7 @@ export const HotelCard: FC<BasicHotelCardProps> = (props) => {
         const buttons = []
         if (props.showViewOfferButton) {
             buttons.push(
-                <button className="button primary" onClick={() => navigate(`/hotel/${props.id}`)}>
+                <button key='btn-view' className="button primary" onClick={() => navigate(`/hotel/${props.id}`)}>
                     View offer
                     <img src="/assets/icons/arrow.svg" alt="Arrow"/>
                 </button>
@@ -41,7 +41,7 @@ export const HotelCard: FC<BasicHotelCardProps> = (props) => {
 
         if (props.onEdit) {
             buttons.push(
-                <button className='button primary' onClick={props.onEdit}>
+                <button key='btn-edit' className='button primary' onClick={props.onEdit}>
                     Edit offer
                     <img src='/assets/icons/pencil.svg' alt='Edit icon'/>
                 </button>
