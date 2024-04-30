@@ -57,7 +57,12 @@
 
 .hotelCardButtonContainer {
     display: flex;
-    justify-content: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.hotelCardButtonContainer > button:only-child {
+    width: 100%;
 }
 
 .hotelCard:nth-child(1) {

@@ -1,4 +1,4 @@
-import {FC, useState} from "react";
+import {FC, ReactNode, useState} from "react";
 import styles from './HotelBrowser.module.css';
 import {useSelector} from "react-redux";
 import {RootState} from "../../app/Store";
@@ -12,6 +12,7 @@ interface HotelBrowserProps {
     showViewOffer: boolean,
     showFavorites: boolean
     onEdit?: (id: number) => void,
+    children?: ReactNode
 }
 
 export const HotelBrowser: FC<HotelBrowserProps> = (props) => {
@@ -54,6 +55,7 @@ export const HotelBrowser: FC<HotelBrowserProps> = (props) => {
                     })
                 }
             </section>
+            {props.children}
         </section>
 
     );
