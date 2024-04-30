@@ -16,10 +16,10 @@ export const HeroPage: FC = () => {
                         than ever. </p>
                     <div className={styles['hero-cards']}>
                         <div className={styles['card-image']}>
-                            <p className="chip">New hotels <img src="/assets/icons/Arrow.svg"/></p>
+                            <p className="chip">New hotels <img src="/assets/icons/arrow.svg"/></p>
                         </div>
                         <div className={styles['card-image']}>
-                            <p className="chip">Best reviews <img src="/assets/icons/Arrow.svg"/></p>
+                            <p className="chip">Best reviews <img src="/assets/icons/arrow.svg"/></p>
                         </div>
                     </div>
                 </article>
@@ -40,7 +40,7 @@ export const HeroPage: FC = () => {
                         customers you can now rent your property with TranquilTravels. </p>
                     <button className="button secondary" onClick={() => navigate('/')}>
                         Log in
-                        <img src="/assets/icons/Arrow.svg"/>
+                        <img src="/assets/icons/arrow.svg"/>
                     </button>
                 </article>
             </section>
