@@ -3,6 +3,10 @@ import {ModalHotelInput} from "../modal-hotel-input/ModalHotelInput";
 import {useDispatch, useSelector} from "react-redux";
 import {editedHotelSelector, submitEdited, updateEdited} from "../../features/HotelsSlice";
 import {AppDispatch} from "../../app/Store";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import {containerIds} from "../../utils/ToastifyContainerIds";
+import {validateAddEditData} from "../../utils/utils";
 
 interface EditModalProps {
 }
@@ -14,15 +18,34 @@ export const EditModal = forwardRef<HTMLDialogElement, EditModalProps>((props, r
     useImperativeHandle(ref, () => innerRef.current!, []);
 
     const handleSubmit = () => {
-        dispatch(submitEdited());
-        innerRef.current?.close();
+        const validation = validateAddEditData(
+            editedHotel?.name || '',
+            editedHotel?.longDescription || '',
+            editedHotel?.location || '',
+            editedHotel?.pricePerRoom.toString() || '',
+            editedHotel?.localCategory.toString() || '',
+        );
+
+        if (validation.valid) {
+            dispatch(submitEdited());
+            handleClose();
+            toast('Hotel edited successfully', {containerId: containerIds.main})
+        } else {
+            toast(<div>{validation.messages}</div>, {containerId: containerIds.editModal, type: 'error'})
+        }
     }
 
+    const handleClose = () => {
+        toast.dismiss({containerId: containerIds.editModal})
+        innerRef.current?.close()
+    }
+
+
     return (
-        <dialog ref={innerRef} onSubmit={e => e.preventDefault()}>
-            <form method="dialog">
+        <dialog ref={innerRef} onClose={handleClose}>
+            <form method="dialog" onSubmit={e => e.preventDefault()}>
                 <section className='dialogX'>
-                    <button onClick={() => innerRef.current?.close()}>
+                    <button onClick={handleClose}>
                         <img src="/assets/icons/cancel.svg" alt="Cancel icon"/>
                     </button>
                 </section>
@@ -50,7 +73,7 @@ export const EditModal = forwardRef<HTMLDialogElement, EditModalProps>((props, r
                                      value: e.target.value
                                  }))}/>
                 <section className='dialogButtonContainer'>
-                    <button className='button secondary' onClick={() => innerRef.current?.close()}>
+                    <button className='button secondary' onClick={handleClose}>
                         Cancel
                     </button>
                     <button className='button primary' onClick={handleSubmit}>
@@ -58,6 +81,7 @@ export const EditModal = forwardRef<HTMLDialogElement, EditModalProps>((props, r
                     </button>
                 </section>
             </form>
+            <ToastContainer containerId={containerIds.editModal} position='bottom-right' />
         </dialog>
     )
 });
