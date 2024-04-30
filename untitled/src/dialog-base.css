@@ -36,3 +36,9 @@ dialog {
     justify-content: end;
     gap: 4px;
 }
+
+@media only screen and (max-width: 1402px) {
+    dialog {
+        width: 90%;
+    }
+}
