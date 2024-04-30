@@ -1,0 +1,147 @@
+@import url('../../index.css');
+
+.hotelCardImage {
+    width: 100%;
+    border-radius: var(--radius-small);
+    height: 307px;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: cover;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+    padding: 1rem;
+}
+
+.hotelCardImage > button {
+    background-color: var(--white);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.hotelCardImage > .chip {
+    font-family: "Roboto Slab", serif;
+}
+
+
+.hotelCard {
+    background-color: var(--white);
+    border-radius: var(--radius-medium);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 24px;
+}
+
+.hotelCardStartAndPrice {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hotelCardStartAndPrice > p {
+    font-size: 24px;
+}
+
+.hotelCardName {
+    font-size: 24px;
+}
+
+.hotelCardButtonContainer {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.hotelCardButtonContainer > button:only-child {
+    width: 100%;
+}
+
+.hotelCard:nth-child(1) {
+    grid-column: 1 / span 3;
+}
+
+.hotelCard:nth-child(2) {
+    grid-column: 4 / span 3;
+}
+
+.hotelCard:nth-child(3) {
+    grid-column: 7 / span 3;
+}
+
+.hotelCard:nth-child(4) {
+    grid-column: 10 / span 3;
+}
+
+
+@media screen and (max-width: 956px) {
+    .hotelCard {
+        row-gap: 12px;
+    }
+
+    .hotelCard:nth-child(1) {
+        grid-column: 1 / span 12;
+    }
+
+    .hotelCard:nth-child(2) {
+        grid-column: 1 / span 12;
+    }
+
+    .hotelCard:nth-child(3) {
+        grid-column: 1 / span 12;
+    }
+
+    .hotelCard:nth-child(4) {
+        grid-column: 1 / span 12;
+    }
+
+
+}
+
+@media screen and (max-width: 768px) {
+    .hotelCard {
+        row-gap: 12px;
+    }
+
+    .hotelCard:nth-child(1) {
+        grid-column: 1 / span 9;
+    }
+
+    .hotelCard:nth-child(2) {
+        grid-column: 1 / span 9;
+    }
+
+    .hotelCard:nth-child(3) {
+        grid-column: 1 / span 9;
+    }
+
+    .hotelCard:nth-child(4) {
+        grid-column: 1 / span 9;
+    }
+}
+
+@media screen and (max-width: 456px) {
+    .hotelCard:nth-child(1) {
+        grid-column: 1 / span 4;
+    }
+
+    .hotelCard:nth-child(2) {
+        grid-column: 1 / span 4;
+    }
+
+    .hotelCard:nth-child(3) {
+        grid-column: 1 / span 4;
+    }
+
+    .hotelCard:nth-child(4) {
+        grid-column: 1 / span 4;
+    }
+}

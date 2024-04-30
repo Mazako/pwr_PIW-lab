@@ -1,0 +1,48 @@
+@import url('../../index.css');
+
+
+.hotelCards {
+    background-color: var(--neutral);
+    display: flex;
+    flex-direction: column;
+    padding-top: 96px;
+    padding-bottom: 96px;
+    row-gap: 32px;
+    justify-content: center;
+    align-items: center;
+}
+
+.hotelCardsHeader {
+    font-family: var(--title-font);
+    font-size: 48px;
+}
+
+.searchbar {
+    width: 50%;
+    padding: 12px;
+    border: 1px solid var(--primary-dark);
+    border-radius: var(--radius-medium);
+    background-color: transparent;
+    text-align: center;
+}
+
+.searchbar:focus {
+    outline: 1px solid var(--hover);
+    transition: var(--transition);
+}
+
+
+@media screen and (max-width: 456px) {
+    .hotelCards {
+        padding: 48px 24px;
+    }
+
+    .hotelCardsHeader {
+        font-size: var(--title-medium);
+    }
+
+    .searchbar {
+        font-size: 12px;
+        width: 80%
+    }
+}

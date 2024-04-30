@@ -1,0 +1,64 @@
+@import "../../index.css";
+
+.navbar {
+    width: 100%;
+    padding: 24px 64px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--white);
+    position: fixed;
+}
+
+.navbarLinks {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    list-style-type: none;
+    column-gap: 48px;
+}
+
+.navbarLinks a {
+    text-decoration: none;
+}
+
+.navbarLinks a:hover {
+    color: var(--hover);
+    transition: var(--transition);
+}
+
+.active {
+    font-weight: bold;
+}
+
+
+.logo {
+    height: 36px;
+    width: auto;
+}
+
+.active {
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 768px) {
+    .navbarLinks {
+        display: none;
+    }
+
+    .navbar {
+        padding: 24px;
+    }
+
+}
+
+@media only screen and (max-width: 456px) {
+    .navbarLinks {
+        display: none;
+    }
+
+    .navbar {
+        padding: 24px;
+    }
+}

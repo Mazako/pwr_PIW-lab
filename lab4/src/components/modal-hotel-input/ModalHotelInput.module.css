@@ -1,0 +1,118 @@
+@import url('../../index.css');
+
+.dialogInput {
+    border-radius: var(--radius-small);
+    border: 1px solid var(--primary-dark);
+    padding: 16px;
+}
+
+.dialogContainer {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 0.6fr 1fr 0.6fr 1fr;
+    grid-template-rows: 1fr 188px 1fr;
+    row-gap: 18px;
+    align-items: center;
+    margin-top: 33px;
+    margin-bottom: 78px;
+}
+
+.dialogContainer * {
+    font-family: "Roboto Flex", sans-serif;
+    font-size: 16px;
+}
+
+#nameL {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+}
+
+#name {
+    grid-column: 2 / span 5;
+    grid-row: 1 / span 1;
+}
+
+#descriptionL {
+    align-self: start;
+    grid-column: 1 / span 1;
+    grid-row: 2 / span 1;
+}
+
+#description {
+    grid-column: 2 / span 5;
+    grid-row: 2 / span 1;
+    align-self: stretch;
+}
+
+#locationL {
+    grid-column: 1 / span 1;
+    grid-row: 3 / span 1;
+
+}
+
+#location {
+    grid-column: 2 / span 1;
+    grid-row: 3 / span 1;
+}
+
+#priceL {
+    grid-column: 3 / span 1;
+    grid-row: 3 / span 1;
+    justify-self: end;
+    padding-right: 32px;
+}
+
+#price {
+    grid-column: 4 / span 1;
+    grid-row: 3 / span 1;
+}
+
+#localL {
+    grid-column: 5 / span 1;
+    grid-row: 3 / span 1;
+    justify-self: end;
+    padding-right: 8px;
+
+}
+
+#local {
+    grid-column: 6 / span 1;
+    grid-row: 3 / span 1;
+}
+
+@media only screen and (max-width: 1048px) {
+
+    .dialogContainer {
+        grid-template-rows: 1fr 188px 1fr 1fr 1fr;
+        column-gap: 24px;
+    }
+
+    #location {
+        grid-column: 2 / span 5;
+        grid-row: 3 / span 1;
+    }
+
+    #priceL {
+        grid-column: 1 / span 1;
+        grid-row: 4 / span 1;
+        justify-self: start;
+        padding-right: 0;
+    }
+
+    #price {
+        grid-column: 2 / span 5;
+        grid-row: 4 / span 1;
+    }
+
+    #localL {
+        grid-column: 1 / span 1;
+        grid-row: 5 / span 1;
+        padding-right: 0;
+
+    }
+
+    #local {
+        grid-column: 2 / span 5;
+        grid-row: 5 / span 1;
+    }
+
+}

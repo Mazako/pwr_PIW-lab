@@ -1,0 +1,21 @@
+@import url('../../dialog-base.css');
+
+.dialogTextarea {
+    height: 392px;
+    width: 100%;
+    border-radius: var(--radius-small);
+    resize: none;
+    margin: 24px 0;
+    display: block;
+    padding: 24px;
+}
+
+.dialogButtons {
+    display: flex;
+    justify-content: end;
+}
+
+.dialogButtons > button:nth-child(1) {
+    border: none;
+    outline: none;
+}
