@@ -3,9 +3,11 @@ import React, {FC, useRef} from "react";
 import {NavLink} from "react-router-dom";
 import {AddModal} from "../add-modal/AddModal";
 import {googleRedirectLogin} from "../../firebase/firebase";
+import {useNavigate} from "react-router";
 
 export const Navbar: FC = () => {
     const ref = useRef<HTMLDialogElement>(null);
+    const navigate = useNavigate();
 
     const navLinkFactory = (to: string, text: string) => {
         return (
@@ -33,7 +35,7 @@ export const Navbar: FC = () => {
                 <li><a href="#" onClick={() =>  ref.current?.showModal()}>Add new offers</a></li>
                 <li>{navLinkFactory('/my-offers', 'My offers')}</li>
                 <li>{navLinkFactory('/favorite', 'Favorites')}</li>
-                <button className="button primary" onClick={handleLogin}>Log in</button>
+                <button className="button primary" onClick={() => navigate('/login')}>Log in</button>
             </ul>
             <button className="button primary hidden">Menu</button>
             <AddModal ref={ref}/>

@@ -1,0 +1,72 @@
+.loginForm {
+    padding: 64px;
+    margin: auto;
+    width: 25%;
+    border: 1px solid var(--primary-dark);
+    border-radius: var(--radius-large);
+    display: grid;
+    grid-template-columns: 0.7fr repeat(3, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    row-gap: 24px;
+    column-gap: 12px;
+}
+
+.loginForm input {
+    border-radius: var(--radius-small);
+    border: 1px solid var(--primary-dark);
+    padding: 16px;
+}
+
+#fNameL {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+    align-self: center;
+}
+
+#fName {
+    grid-column: 2 / span 3;
+    grid-row: 1 / span 1;
+}
+
+#lNameL {
+    grid-column: 1 / span 1;
+    grid-row: 2 / span 1;
+    align-self: center;
+}
+
+#lName {
+    grid-column: 2 / span 3;
+    grid-row: 2 / span 1;
+
+}
+
+#emailL {
+    grid-column: 1 / span 1;
+    grid-row: 3 / span 1;
+    align-self: center;
+    justify-self: start;
+}
+
+#email {
+    grid-column: 2 / span 3;
+    grid-row: 3 / span 1;
+}
+
+#passwordL {
+    grid-column: 1 / span 1;
+    grid-row: 4 / span 1;
+    align-self: center;
+    justify-self: start;
+
+}
+
+#password {
+    grid-column: 2 / span 3;
+    grid-row: 4 / span 1;
+}
+
+#signUp {
+    grid-column: 1 / span 4;
+    grid-row: 6 / span 1;
+}
+
