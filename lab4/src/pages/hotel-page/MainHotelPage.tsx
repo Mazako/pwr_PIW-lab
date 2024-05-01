@@ -1,29 +1,30 @@
 import {FC, useEffect} from "react";
-import {useNavigate, useParams} from "react-router";
+import {Navigate, useNavigate, useParams} from "react-router";
 import {useSelector} from "react-redux";
 import {RootState} from "../../app/Store";
 import {hotelByIdSelector} from "../../features/HotelsSlice";
 import {HotelPage} from "../../components/hotel-page/HotelPage";
 import {useGetAllHotelsQuery, useGetHotelByIdQuery} from "../../features/HotelApi";
+import {getAuth} from "firebase/auth";
+import {loggedInSelector} from "../../features/LoggedInSlice";
 
 export const MainHotelPage: FC = () => {
     const {hotelId} = useParams();
-    const hotel = useSelector((state: RootState) => hotelByIdSelector(state, Number(hotelId)));
-
+    const {data, isLoading, isError} = useGetHotelByIdQuery(hotelId || '');
+    const auth = getAuth();
     const navigate = useNavigate()
-    useEffect(() => {
-        if (!hotel) {
-            navigate('/browse')
-        }
-    }, [hotel, navigate])
 
-    if (!hotel) {
-        return <p>Loading...</p>
+    if (isError) {
+        return <Navigate to='/browse' />;
     }
 
-    if (hotel.owner) {
+    if (isLoading || data === undefined) {
+        return <></>;
+    }
+
+    if (data.ownerId === auth.currentUser?.uid) {
         return (
-            <HotelPage hotel={hotel}
+            <HotelPage hotel={data}
                        showFavorite={false}
                        showContact={false}
                        showEdit={true}
@@ -31,7 +32,7 @@ export const MainHotelPage: FC = () => {
         )
     } else {
         return (
-            <HotelPage hotel={hotel}
+            <HotelPage hotel={data}
                        showFavorite={true}
                        showContact={true}
                        showEdit={false}

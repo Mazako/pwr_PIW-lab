@@ -1,11 +1,13 @@
 import {configureStore} from '@reduxjs/toolkit'
 import {hotelsReducer} from "../features/HotelsSlice";
 import {hotelApi} from "../features/HotelApi";
+import {loggedInReducer} from "../features/LoggedInSlice";
 
 export const store = configureStore({
     reducer: {
         hotels: hotelsReducer,
-        hotelsApi: hotelApi.reducer
+        hotelsApi: hotelApi.reducer,
+        loggedIn: loggedInReducer
     },
 
     // @ts-ignore

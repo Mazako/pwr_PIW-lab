@@ -1,17 +1,19 @@
 import styles from './NavBar.module.css'
-import React, {FC, useEffect, useRef, useState} from "react";
+import React, {FC, useRef} from "react";
 import {NavLink} from "react-router-dom";
 import {AddModal} from "../add-modal/AddModal";
 import {useNavigate} from "react-router";
-import {getAuth, onAuthStateChanged, signOut} from "firebase/auth";
+import {getAuth, signOut} from "firebase/auth";
 import {toast} from "react-toastify";
 import {containerIds} from "../../utils/ToastifyContainerIds";
+import {useSelector} from "react-redux";
+import {loggedInSelector} from "../../features/LoggedInSlice";
 
 export const Navbar: FC = () => {
     const ref = useRef<HTMLDialogElement>(null);
     const navigate = useNavigate();
     const auth = getAuth();
-    const [userLoggedIn, setUserLoggedIn] = useState(false);
+    const loggedIn = useSelector(loggedInSelector);
 
     const navLinkFactory = (to: string, text: string) => {
         return (
@@ -21,16 +23,6 @@ export const Navbar: FC = () => {
         );
     }
 
-    useEffect(() => {
-        onAuthStateChanged(auth, user => {
-            if (user) {
-                setUserLoggedIn(true)
-            } else {
-                setUserLoggedIn(false);
-            }
-        })
-    }, [auth]);
-
     const handleLogout = async () => {
         await signOut(auth);
         toast('Logged out', {containerId: containerIds.main});
@@ -38,7 +30,7 @@ export const Navbar: FC = () => {
 
 
     const logInLogOutButton = () => {
-        if (!userLoggedIn) {
+        if (!loggedIn) {
             return <button className="button primary" onClick={() => navigate('/login')}>Log in</button>
         } else {
             return <button className="button primary" onClick={handleLogout}>Log out</button>

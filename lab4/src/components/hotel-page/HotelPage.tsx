@@ -1,17 +1,16 @@
 import {FC, useRef} from "react";
-import {HotelData} from "../../features/data";
 import {Header} from "../header/Header";
 import styles from './HotelPage.module.css'
 import {createRateStr} from "../../utils/utils";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../app/Store";
-import {initEdit, removeHotel, toggleFavorite} from "../../features/HotelsSlice";
 import {ContactModal} from "../contact-modal/ContactModal";
 import {useNavigate} from "react-router";
 import {EditModal} from "../edit-modal/EditModal";
+import {HotelDTO} from "../../firebase/HotelQuerries";
 
 interface HotelPageProps {
-    hotel: HotelData,
+    hotel: HotelDTO,
     showContact: boolean,
     showEdit: boolean
     showRemove: boolean
@@ -23,17 +22,16 @@ export const HotelPage: FC<HotelPageProps> = ({hotel, showContact, showEdit, sho
     const contactRef = useRef<HTMLDialogElement>(null);
     const editRef = useRef<HTMLDialogElement>(null);
     const navigate = useNavigate();
-
     const renderFavButton = () => {
-        if (showFavorite) {
-            return (
-                <button className="button secondary" onClick={() => dispatch(toggleFavorite(hotel.id))}>
-                    {hotel.favorite ? 'Remove from favorites' : 'Add to favorites'}
-                    <img src={hotel.favorite ? '/assets/icons/filled-heart.svg' : '/assets/icons/empty-heart.svg'}
-                         alt="heart"/>
-                </button>
-            );
-        }
+        // if (showFavorite) {
+        //     return (
+        //         <button className="button secondary" onClick={() => dispatch(toggleFavorite(hotel.id))}>
+        //             {hotel.favorite ? 'Remove from favorites' : 'Add to favorites'}
+        //             <img src={hotel.favorite ? '/assets/icons/filled-heart.svg' : '/assets/icons/empty-heart.svg'}
+        //                  alt="heart"/>
+        //         </button>
+        //     );
+        // }
     };
 
     const renderEditContactRemove = () => {
@@ -49,10 +47,10 @@ export const HotelPage: FC<HotelPageProps> = ({hotel, showContact, showEdit, sho
 
         if (showEdit) {
             const handleEdit = () => {
-                if (editRef.current) {
-                    dispatch(initEdit(hotel.id));
-                    editRef.current.showModal();
-                }
+                // if (editRef.current) {
+                //     dispatch(initEdit(hotel.id));
+                //     editRef.current.showModal();
+                // }
             }
 
             arr.push(
@@ -65,8 +63,8 @@ export const HotelPage: FC<HotelPageProps> = ({hotel, showContact, showEdit, sho
 
         if (showRemove) {
             const handleRemove = () => {
-                dispatch(removeHotel(hotel.id));
-                navigate('/browse');
+                // dispatch(removeHotel(hotel.id));
+                // navigate('/browse');
             }
 
             arr.push(
@@ -86,14 +84,14 @@ export const HotelPage: FC<HotelPageProps> = ({hotel, showContact, showEdit, sho
             <EditModal ref={editRef} />
             <Header title={hotel.name}/>
             <section className="grid">
-                <article className={styles.left} style={{backgroundImage: `url(${hotel.imgPath})`}}>
-                    {renderFavButton()}
+                <article className={styles.left} style={{backgroundImage: `url(${hotel.bigImgPath})`}}>
+                    {/*{renderFavButton()}*/}
                 </article>
                 <section className={styles.right}>
                     <article className={`text-small ${styles.rightInfo}`}>
                         <p><span>Location: </span>{hotel.location}</p>
                         <p><span>Local category: </span>{createRateStr(hotel.localCategory)}</p>
-                        <p><span>Price: </span>{hotel.pricePerRoom}€/room/night</p>
+                        <p><span>Price: </span>{hotel.price}€/room/night</p>
                         <p><span>Description: </span></p>
                     </article>
                     <p className="text-small">{hotel.longDescription}</p>
@@ -101,8 +99,8 @@ export const HotelPage: FC<HotelPageProps> = ({hotel, showContact, showEdit, sho
                         {renderEditContactRemove()}
                     </article>
                     <article className={styles.imageContainer}>
-                        <img src={hotel.imgPath} alt="Small hotel"/>
-                        <img src={hotel.imgPath} alt="Small hotel"/>
+                        <img src={hotel.galleryImg1Path} alt="Small hotel"/>
+                        <img src={hotel.galleryImg2Path} alt="Small hotel"/>
                     </article>
                 </section>
             </section>

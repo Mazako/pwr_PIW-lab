@@ -20,7 +20,7 @@ export const HotelBrowser: FC<HotelBrowserProps> = (props) => {
     const [text, setText] = useState('');
     // const hotels = useSelector((state: RootState) => searchableFirstFourHotelsSelector(state, text, props.favoritesOnly, props.onEdit !== undefined));
 
-    const {data,  isLoading, error} = useGetAllHotelsQuery({limit: 4, search: text})
+    const {data,  isLoading, error} = useGetAllHotelsQuery({lim: 4, search: text})
 
     const editHandler = (id: string) => {
         if (props.onEdit) {
