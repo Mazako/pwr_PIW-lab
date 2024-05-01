@@ -10,9 +10,9 @@ export const MyOffersPage: FC = () => {
     const ref = useRef<HTMLDialogElement>(null);
     const dispatch: AppDispatch = useDispatch();
 
-    const handleEditClick = (id: number) => {
-        dispatch(initEdit(id));
-        ref.current?.showModal()
+    const handleEditClick = (id: string) => {
+        // dispatch(initEdit(id));
+        // ref.current?.showModal()
     }
 
     return (

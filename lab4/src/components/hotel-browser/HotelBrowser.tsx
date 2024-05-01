@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../app/Store";
 import {searchableFirstFourHotelsSelector} from "../../features/HotelsSlice";
 import {HotelCard} from "../hotel-card/HotelCard";
+import {useGetAllHotelsQuery} from "../../features/HotelApi";
 
 interface HotelBrowserProps {
     title?: string,
@@ -11,21 +12,27 @@ interface HotelBrowserProps {
     favoritesOnly: boolean,
     showViewOffer: boolean,
     showFavorites: boolean
-    onEdit?: (id: number) => void,
+    onEdit?: (id: string) => void,
     children?: ReactNode
 }
 
 export const HotelBrowser: FC<HotelBrowserProps> = (props) => {
     const [text, setText] = useState('');
-    const hotels = useSelector((state: RootState) => searchableFirstFourHotelsSelector(state, text, props.favoritesOnly, props.onEdit !== undefined));
+    // const hotels = useSelector((state: RootState) => searchableFirstFourHotelsSelector(state, text, props.favoritesOnly, props.onEdit !== undefined));
 
-    const editHandler = (id: number) => {
+    const {data,  isLoading, error} = useGetAllHotelsQuery({limit: 4, search: text})
+
+    const editHandler = (id: string) => {
         if (props.onEdit) {
-            // @ts-ignore
+            //@ts-ignore
             return () => props.onEdit(id);
         } else {
             return undefined;
         }
+    }
+
+    if (isLoading) {
+        return <></>;
     }
 
     return (
@@ -37,10 +44,10 @@ export const HotelBrowser: FC<HotelBrowserProps> = (props) => {
                    onChange={e => setText(e.target.value)}/>
             <section className="grid">
                 {
-                    hotels.map((hotel) => {
+                    data?.map((hotel) => {
                         return (
                             <HotelCard key={hotel.id}
-                                       favorite={hotel.favorite}
+                                       favorite={false}
                                        id={hotel.id}
                                        showViewOfferButton={props.showViewOffer}
                                        showFavorite={props.showFavorites}
@@ -48,8 +55,8 @@ export const HotelBrowser: FC<HotelBrowserProps> = (props) => {
                                        description={hotel.shortDescription}
                                        location={hotel.location}
                                        rate={hotel.localCategory}
-                                       pricePerRoom={hotel.pricePerRoom}
-                                       imgPath={hotel.imgPath}
+                                       pricePerRoom={hotel.price}
+                                       imgPath={hotel.bigImgPath}
                                        onEdit={editHandler(hotel.id)}/>
                         );
                     })

@@ -11,7 +11,7 @@ import {useNavigate} from "react-router";
 export const HotelCard: FC<BasicHotelCardProps> = (props) => {
     const dispatch: AppDispatch = useDispatch()
     const handleFavoriteClick = () => {
-        dispatch(toggleFavorite(props.id));
+        // dispatch(toggleFavorite(props.id));
     };
     const navigate = useNavigate()
 

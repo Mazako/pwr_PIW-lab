@@ -21,8 +21,8 @@ export const hotels: Array<HotelData> = [
         location: 'Florence',
         localCategory: 5,
         pricePerRoom: 100,
-        imgPath: '/assets/explore-page/hotel-card-image-1.png',
-        smallImgPath: '/assets/explore-page/hotel-card-image-1.png',
+        imgPath: '/assets/hotel-page/hotel-page-big.png',
+        smallImgPath: '/assets/hotel-page/hotel-page-big.png',
         favorite: false,
         owner: true
     },
@@ -35,8 +35,8 @@ export const hotels: Array<HotelData> = [
         location: 'Madrid',
         localCategory: 4,
         pricePerRoom: 70,
-        imgPath: '/assets/explore-page/hotel-card-image-2.png',
-        smallImgPath: '/assets/hotel-page/hotel-page-small.png',
+        imgPath: '/assets/hotel-page/hotel-page-big.png',
+        smallImgPath: '/assets/hotel-page/hotel-page-big.png',
         favorite: false,
         owner: true
     },
@@ -49,8 +49,8 @@ export const hotels: Array<HotelData> = [
         location: 'Sintra',
         localCategory: 4,
         pricePerRoom: 65,
-        imgPath: '/assets/explore-page/hotel-card-image-3.png',
-        smallImgPath: '/assets/explore-page/hotel-card-image-3.png',
+        imgPath: '/assets/hotel-page/hotel-page-big.png',
+        smallImgPath: '/assets/hotel-page/hotel-page-big.png',
         favorite: false,
         owner: false
     },
@@ -63,8 +63,8 @@ export const hotels: Array<HotelData> = [
         location: 'Sienna',
         localCategory: 5,
         pricePerRoom: 115,
-        imgPath: '/assets/explore-page/hotel-card-image-4.png',
-        smallImgPath: '/assets/explore-page/hotel-card-image-4.png',
+        imgPath: '/assets/hotel-page/hotel-page-big.png',
+        smallImgPath: '/assets/hotel-page/hotel-page-big.png',
         favorite: false,
         owner: false
     },

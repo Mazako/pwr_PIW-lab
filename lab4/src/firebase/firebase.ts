@@ -1,5 +1,7 @@
 import {initializeApp} from "firebase/app";
 import {Auth, GoogleAuthProvider, signInWithRedirect} from "firebase/auth";
+import {collection, getFirestore} from "firebase/firestore";
+import {getStorage, ref} from "firebase/storage"
 
 export const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -11,6 +13,9 @@ export const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const storage = getStorage(app, 'gs://tranquil-travelers.appspot.com');
+export const hotelsRef = collection(db, 'hotels');
 
 export const googleRedirectLogin = (auth: Auth) => {
     const provider = new GoogleAuthProvider();
@@ -20,3 +25,4 @@ export const googleRedirectLogin = (auth: Auth) => {
 
     return signInWithRedirect(auth, provider);
 }
+
