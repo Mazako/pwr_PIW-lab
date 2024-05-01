@@ -6,7 +6,7 @@ import {AppDispatch} from "../../app/Store";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {containerIds} from "../../utils/ToastifyContainerIds";
-import {validateAddEditData} from "../../utils/utils";
+import {validateAddEditData} from "../../utils/validation";
 
 interface EditModalProps {
 }
@@ -31,7 +31,7 @@ export const EditModal = forwardRef<HTMLDialogElement, EditModalProps>((props, r
             handleClose();
             toast('Hotel edited successfully', {containerId: containerIds.main})
         } else {
-            toast(<div>{validation.messages}</div>, {containerId: containerIds.editModal, type: 'error'})
+            toast(validation.messages, {containerId: containerIds.editModal, type: 'error'})
         }
     }
 

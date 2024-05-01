@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import {initializeApp} from "firebase/app";
+import {getAuth, GoogleAuthProvider, signInWithRedirect} from "firebase/auth";
 
 export const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -15,16 +15,8 @@ export const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
 
 provider.setCustomParameters({
-    prompt : 'select_account'
+    prompt: 'select_account'
 });
-export const auth = getAuth();
-
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        console.log(user);
-    } else {
-        console.log('User not logged')
-    }
-})
+const auth = getAuth();
 
 export const googleRedirectLogin = () => signInWithRedirect(auth, provider);

@@ -10,6 +10,7 @@ import {MainHotelPage} from "../pages/hotel-page/MainHotelPage";
 import {HeroPage} from "../pages/hero-page/HeroPage";
 import {LoginPage} from "../pages/login-page/LoginPage";
 import {RegisterPage} from "../pages/register-page/RegisterPage";
+import {getAuth, onAuthStateChanged} from "firebase/auth";
 
 const App: React.FC = () => {
 

@@ -6,7 +6,7 @@ import {addHotel} from "../../features/HotelsSlice";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {containerIds} from "../../utils/ToastifyContainerIds";
-import {validateAddEditData} from "../../utils/utils";
+import {validateAddEditData} from "../../utils/validation";
 
 interface EditModalProps {
 }
@@ -36,7 +36,7 @@ export const AddModal = forwardRef<HTMLDialogElement, EditModalProps>((props, re
             toast('Hotel added successfully', {containerId: containerIds.main});
             handleClose();
         } else {
-            toast(<div>{validation.messages}</div>, {type: 'error', containerId: containerIds.addModal });
+            toast(validation.messages, {type: 'error', containerId: containerIds.addModal });
         }
 
     }

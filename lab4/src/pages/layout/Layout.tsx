@@ -1,11 +1,12 @@
-import {FC} from "react";
+import {FC, useEffect} from "react";
 import {Navbar} from "../../components/navbar/NavBar";
-import {Outlet} from "react-router";
+import {Outlet, useNavigate} from "react-router";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {containerIds} from "../../utils/ToastifyContainerIds";
 
 export const Layout: FC = () => {
+
     return (
         <main>
             <Navbar/>
