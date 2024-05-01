@@ -11,8 +11,10 @@ import {HeroPage} from "../pages/hero-page/HeroPage";
 import {LoginPage} from "../pages/login-page/LoginPage";
 import {RegisterPage} from "../pages/register-page/RegisterPage";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
+import { enableMapSet } from 'immer'
 
 const App: React.FC = () => {
+    enableMapSet();
 
     const router = createBrowserRouter(createRoutesFromElements([
         <Route path='/' element={<Layout/>}>

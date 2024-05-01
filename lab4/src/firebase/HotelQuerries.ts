@@ -21,6 +21,15 @@ export interface HotelFilterQueryParams {
     search?: string,
 }
 
+interface AddHotelData {
+    name: string,
+    longDescription: string,
+    location: string,
+    localCategory: number,
+    pricePerRoom: number,
+}
+
+
 const convertToHotelDto = async (id: string, result: DocumentData): Promise<HotelDTO> => {
     return {
         id,

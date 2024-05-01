@@ -2,12 +2,13 @@ import {FC, useRef} from "react";
 import {Header} from "../header/Header";
 import styles from './HotelPage.module.css'
 import {createRateStr} from "../../utils/utils";
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "../../app/Store";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../app/Store";
 import {ContactModal} from "../contact-modal/ContactModal";
 import {useNavigate} from "react-router";
 import {EditModal} from "../edit-modal/EditModal";
 import {HotelDTO} from "../../firebase/HotelQuerries";
+import {addToFavorites, isFavoriteSelector, removeFromFavorites} from "../../features/HotelsSlice";
 
 interface HotelPageProps {
     hotel: HotelDTO,
@@ -22,16 +23,27 @@ export const HotelPage: FC<HotelPageProps> = ({hotel, showContact, showEdit, sho
     const contactRef = useRef<HTMLDialogElement>(null);
     const editRef = useRef<HTMLDialogElement>(null);
     const navigate = useNavigate();
+    const isFavorite = useSelector((state: RootState) => isFavoriteSelector(state, hotel.id))
+
+
     const renderFavButton = () => {
-        // if (showFavorite) {
-        //     return (
-        //         <button className="button secondary" onClick={() => dispatch(toggleFavorite(hotel.id))}>
-        //             {hotel.favorite ? 'Remove from favorites' : 'Add to favorites'}
-        //             <img src={hotel.favorite ? '/assets/icons/filled-heart.svg' : '/assets/icons/empty-heart.svg'}
-        //                  alt="heart"/>
-        //         </button>
-        //     );
-        // }
+        const handleFavoriteClick = () => {
+            if (isFavorite) {
+                dispatch(removeFromFavorites(hotel.id));
+            } else {
+                dispatch(addToFavorites(hotel.id))
+            }
+        };
+
+        if (showFavorite) {
+            return (
+                <button className="button secondary" onClick={handleFavoriteClick}>
+                    {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                    <img src={isFavorite ? '/assets/icons/filled-heart.svg' : '/assets/icons/empty-heart.svg'}
+                         alt="heart"/>
+                </button>
+            );
+        }
     };
 
     const renderEditContactRemove = () => {
@@ -85,7 +97,7 @@ export const HotelPage: FC<HotelPageProps> = ({hotel, showContact, showEdit, sho
             <Header title={hotel.name}/>
             <section className="grid">
                 <article className={styles.left} style={{backgroundImage: `url(${hotel.bigImgPath})`}}>
-                    {/*{renderFavButton()}*/}
+                    {renderFavButton()}
                 </article>
                 <section className={styles.right}>
                     <article className={`text-small ${styles.rightInfo}`}>

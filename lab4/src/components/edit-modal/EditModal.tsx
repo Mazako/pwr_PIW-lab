@@ -1,7 +1,7 @@
 import {forwardRef, useImperativeHandle, useRef} from "react";
 import {ModalHotelInput} from "../modal-hotel-input/ModalHotelInput";
 import {useDispatch, useSelector} from "react-redux";
-import {editedHotelSelector, submitEdited, updateEdited} from "../../features/HotelsSlice";
+import {editedHotelSelector, updateEdited} from "../../features/HotelsSlice";
 import {AppDispatch} from "../../app/Store";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,12 +22,12 @@ export const EditModal = forwardRef<HTMLDialogElement, EditModalProps>((props, r
             editedHotel?.name || '',
             editedHotel?.longDescription || '',
             editedHotel?.location || '',
-            editedHotel?.pricePerRoom.toString() || '',
+            editedHotel?.price.toString() || '',
             editedHotel?.localCategory.toString() || '',
         );
 
         if (validation.valid) {
-            dispatch(submitEdited());
+            // dispatch(submitEdited());
             handleClose();
             toast('Hotel edited successfully', {containerId: containerIds.main})
         } else {
@@ -62,9 +62,9 @@ export const EditModal = forwardRef<HTMLDialogElement, EditModalProps>((props, r
                                      type: 'location',
                                      value: e.target.value
                                  }))}
-                                 price={editedHotel?.pricePerRoom.toString() || ''}
+                                 price={editedHotel?.price.toString() || ''}
                                  onPriceChange={e => dispatch(updateEdited({
-                                     type: 'pricePerRoom',
+                                     type: 'price',
                                      value: e.target.value
                                  }))}
                                  localCategory={editedHotel?.localCategory.toString() || ''}

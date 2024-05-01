@@ -2,7 +2,6 @@ import {forwardRef, useImperativeHandle, useRef, useState} from "react";
 import {ModalHotelInput} from "../modal-hotel-input/ModalHotelInput";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../app/Store";
-import {addHotel} from "../../features/HotelsSlice";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {containerIds} from "../../utils/ToastifyContainerIds";
@@ -24,20 +23,20 @@ export const AddModal = forwardRef<HTMLDialogElement, EditModalProps>((props, re
     const dispatch: AppDispatch = useDispatch();
 
     const handleAddButtonClick = () => {
-        const validation = validateAddEditData(name, description, location, price, localCategory);
-        if (validation.valid) {
-            dispatch(addHotel({
-                name: name,
-                localCategory: Number(localCategory),
-                location: location,
-                longDescription: description,
-                pricePerRoom: Number(price)
-            }));
-            toast('Hotel added successfully', {containerId: containerIds.main});
-            handleClose();
-        } else {
-            toast(validation.messages, {type: 'error', containerId: containerIds.addModal });
-        }
+        // const validation = validateAddEditData(name, description, location, price, localCategory);
+        // if (validation.valid) {
+        //     dispatch(addHotel({
+        //         name: name,
+        //         localCategory: Number(localCategory),
+        //         location: location,
+        //         longDescription: description,
+        //         pricePerRoom: Number(price)
+        //     }));
+        //     toast('Hotel added successfully', {containerId: containerIds.main});
+        //     handleClose();
+        // } else {
+        //     toast(validation.messages, {type: 'error', containerId: containerIds.addModal });
+        // }
 
     }
 

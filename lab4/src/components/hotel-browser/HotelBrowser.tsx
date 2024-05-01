@@ -1,8 +1,7 @@
 import {FC, ReactNode, useState} from "react";
 import styles from './HotelBrowser.module.css';
 import {useSelector} from "react-redux";
-import {RootState} from "../../app/Store";
-import {searchableFirstFourHotelsSelector} from "../../features/HotelsSlice";
+import {allFavoriteSelector} from "../../features/HotelsSlice";
 import {HotelCard} from "../hotel-card/HotelCard";
 import {useGetAllHotelsQuery} from "../../features/HotelApi";
 
@@ -18,7 +17,7 @@ interface HotelBrowserProps {
 
 export const HotelBrowser: FC<HotelBrowserProps> = (props) => {
     const [text, setText] = useState('');
-    // const hotels = useSelector((state: RootState) => searchableFirstFourHotelsSelector(state, text, props.favoritesOnly, props.onEdit !== undefined));
+    const favorites = useSelector(allFavoriteSelector);
 
     const {data,  isLoading, error} = useGetAllHotelsQuery({lim: 4, search: text})
 
@@ -35,6 +34,11 @@ export const HotelBrowser: FC<HotelBrowserProps> = (props) => {
         return <></>;
     }
 
+    let hotels = data;
+    if (props.favoritesOnly && hotels) {
+        hotels = hotels.filter(hotel => favorites[hotel.id]);
+    }
+
     return (
         <section className={styles.hotelCards} style={!props.title ? {paddingTop: 24} : {}}>
             <article className={styles.hotelCardsHeader}>
@@ -44,10 +48,9 @@ export const HotelBrowser: FC<HotelBrowserProps> = (props) => {
                    onChange={e => setText(e.target.value)}/>
             <section className="grid">
                 {
-                    data?.map((hotel) => {
+                    hotels?.map((hotel) => {
                         return (
                             <HotelCard key={hotel.id}
-                                       favorite={false}
                                        id={hotel.id}
                                        showViewOfferButton={props.showViewOffer}
                                        showFavorite={props.showFavorites}

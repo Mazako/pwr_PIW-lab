@@ -1,25 +1,45 @@
 import {FC, useState} from "react";
 import styles from './HotelCard.module.css';
-import {BasicHotelCardProps} from "./props";
 import {createRateStr} from "../../utils/utils";
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "../../app/Store";
-import {toggleFavorite} from "../../features/HotelsSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../app/Store";
 import {useNavigate} from "react-router";
+import {addToFavorites, isFavoriteSelector, removeFromFavorites} from "../../features/HotelsSlice";
+
+export interface BasicHotelCardProps {
+    id: string
+    name: string,
+    description: string,
+    location: string,
+    rate: number,
+    pricePerRoom: number
+    showFavorite: boolean,
+    showViewOfferButton: boolean,
+    imgPath: string
+    onEdit?: () => void
+}
 
 
 export const HotelCard: FC<BasicHotelCardProps> = (props) => {
     const dispatch: AppDispatch = useDispatch()
+    const isFavorite = useSelector((state: RootState) => isFavoriteSelector(state, props.id))
+
+
     const handleFavoriteClick = () => {
-        // dispatch(toggleFavorite(props.id));
+        if (isFavorite) {
+            dispatch(removeFromFavorites(props.id));
+        } else {
+            dispatch(addToFavorites(props.id))
+        }
     };
+
     const navigate = useNavigate()
 
     const renderFav = () => {
         if (props.showFavorite) {
             return (
                 <button>
-                    <img src={props.favorite ? '/assets/icons/filled-heart.svg' : '/assets/icons/empty-heart.svg'}
+                    <img src={isFavorite ? '/assets/icons/filled-heart.svg' : '/assets/icons/empty-heart.svg'}
                          onClick={handleFavoriteClick}
                          alt='Heart icon'/>
                 </button>

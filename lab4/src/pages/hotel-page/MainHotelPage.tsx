@@ -1,12 +1,8 @@
-import {FC, useEffect} from "react";
+import {FC} from "react";
 import {Navigate, useNavigate, useParams} from "react-router";
-import {useSelector} from "react-redux";
-import {RootState} from "../../app/Store";
-import {hotelByIdSelector} from "../../features/HotelsSlice";
 import {HotelPage} from "../../components/hotel-page/HotelPage";
-import {useGetAllHotelsQuery, useGetHotelByIdQuery} from "../../features/HotelApi";
+import {useGetHotelByIdQuery} from "../../features/HotelApi";
 import {getAuth} from "firebase/auth";
-import {loggedInSelector} from "../../features/LoggedInSlice";
 
 export const MainHotelPage: FC = () => {
     const {hotelId} = useParams();
