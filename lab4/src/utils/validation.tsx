@@ -3,9 +3,11 @@ export interface ValidationResults {
     messages: JSX.Element | null;
 }
 
-export interface ValidatorEntry {
+interface ValidatorEntry {
     property: string,
-    predicates: {
+    canBeEmpty: false,
+    messageIfEmpty?: string
+    predicates?: {
         predicate: (str: string) => boolean,
         message: string
     }[]
@@ -13,9 +15,17 @@ export interface ValidatorEntry {
 
 const generalValidator = (entries: ValidatorEntry[]): ValidationResults => {
     const messages = entries
-        .flatMap(entry => entry.predicates.filter(p => p.predicate(entry.property)))
-        .map(p => p.message);
-
+        .flatMap(entry => {
+                if (!entry.canBeEmpty && NOT_EMPTY(entry.property || '')) {
+                    return entry.messageIfEmpty || '';
+                }
+                return entry.predicates
+                    ? entry.predicates
+                        .filter(p => p.predicate(entry.property))
+                        .map(p => p.message)
+                    : [];
+            }
+        )
     const block = createValidationMessageBlock(messages);
     return {
         valid: block === null,
@@ -27,42 +37,19 @@ const generalValidator = (entries: ValidatorEntry[]): ValidationResults => {
 const NOT_EMPTY = (str: string) => str.trim() === '';
 
 export const validateLogin = (email: string, password: string): ValidationResults => {
-    let messages: string[] = [];
-    let valid = true;
-    if (email === '') {
-        messages.push('E-mail is empty');
-        valid = false;
-    }
-
-    if (password === '') {
-        messages.push('Password is empty');
-        valid = false;
-    }
-
-
-    return {
-        valid,
-        messages: createValidationMessageBlock(messages)
-    };
+    return generalValidator([
+        {property: email, canBeEmpty: false, messageIfEmpty: 'E-mail is empty'},
+        {property: password, canBeEmpty: false, messageIfEmpty: 'Password is empty'},
+    ])
 }
 
 export const validateRegistration = (firstName: string, lastName: string, email: string, password: string): ValidationResults => {
-    const messages: string[] = []
-    let valid = true;
-    if (email === '') {
-        messages.push('E-mail is empty');
-        valid = false;
-    }
-
-    if (password === '') {
-        messages.push('Password is empty');
-        valid = false;
-    }
-
-    return {
-        valid,
-        messages: createValidationMessageBlock(messages)
-    };
+    return generalValidator([
+        {property: firstName, canBeEmpty: false, messageIfEmpty: 'First name is empty'},
+        {property: lastName, canBeEmpty: false, messageIfEmpty: 'Last name is empty'},
+        {property: email, canBeEmpty: false, messageIfEmpty: 'Last name is empty'},
+        {property: password, canBeEmpty: false, messageIfEmpty: 'Password is empty'},
+    ])
 }
 
 export const validateAddEditData = (name: string,
@@ -71,11 +58,18 @@ export const validateAddEditData = (name: string,
                                     price: string,
                                     localCategory: string): ValidationResults => {
     return generalValidator([
+        {property: name, canBeEmpty: false, messageIfEmpty: 'Name is empty'},
+        {property: description, canBeEmpty: false, messageIfEmpty: 'Description is empty'},
+        {property: location, canBeEmpty: false, messageIfEmpty: 'Location is empty'},
         {
-            property: name,
-            predicates: [{predicate: NOT_EMPTY, message: 'Name is empty'}],
+            property: localCategory, canBeEmpty: false, messageIfEmpty: 'Local category is empty',
+            predicates: [{predicate: str => Number(str) > 5 || Number(str) < 1, message: 'Invalid local category'}]
+        },
+        {
+            property: price, canBeEmpty: false, messageIfEmpty: 'Price is empty',
+            predicates: [{predicate: str => Number(str) <= 0, message: 'Price cannot be less or equal zero'}]
         }
-    ])
+    ]);
 }
 
 
