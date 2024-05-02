@@ -1,4 +1,4 @@
-import {FC, useState} from "react";
+import {FC} from "react";
 import styles from './HotelCard.module.css';
 import {createRateStr} from "../../utils/utils";
 import {useDispatch, useSelector} from "react-redux";
@@ -16,7 +16,7 @@ export interface BasicHotelCardProps {
     showFavorite: boolean,
     showViewOfferButton: boolean,
     imgPath: string
-    onEdit?: () => void
+    onEdit?: (id: string) => Promise<void>
 }
 
 
@@ -24,19 +24,26 @@ export const HotelCard: FC<BasicHotelCardProps> = (props) => {
     const dispatch: AppDispatch = useDispatch()
     const isFavorite = useSelector((state: RootState) => isFavoriteSelector(state, props.id))
 
-
-    const handleFavoriteClick = () => {
-        if (isFavorite) {
-            dispatch(removeFromFavorites(props.id));
-        } else {
-            dispatch(addToFavorites(props.id))
-        }
-    };
-
     const navigate = useNavigate()
 
     const renderFav = () => {
         if (props.showFavorite) {
+            const handleFavoriteClick = () => {
+                if (isFavorite) {
+                    dispatch(removeFromFavorites(props.id));
+                } else {
+                    dispatch(addToFavorites({
+                        id: props.id,
+                        imgPath: props.imgPath,
+                        price: props.pricePerRoom,
+                        location: props.location,
+                        name: props.name,
+                        localCategory: props.rate,
+                        shortDescription: props.description
+                    }))
+                }
+            };
+
             return (
                 <button>
                     <img src={isFavorite ? '/assets/icons/filled-heart.svg' : '/assets/icons/empty-heart.svg'}
@@ -59,8 +66,12 @@ export const HotelCard: FC<BasicHotelCardProps> = (props) => {
         }
 
         if (props.onEdit) {
+            const handleEditClick = async () => {
+                // @ts-ignore
+                await props.onEdit(props.id);
+            }
             buttons.push(
-                <button key='btn-edit' className='button primary' onClick={props.onEdit}>
+                <button key='btn-edit' className='button primary' onClick={handleEditClick}>
                     Edit offer
                     <img src='/assets/icons/pencil.svg' alt='Edit icon'/>
                 </button>
@@ -74,14 +85,16 @@ export const HotelCard: FC<BasicHotelCardProps> = (props) => {
             <article className={styles.hotelCardImage} style={{
                 backgroundImage: `url(${props.imgPath})`
             }}>
-            <p className="chip">{props.location}</p>
+                <p className="chip">{props.location}</p>
                 {renderFav()}
             </article>
-            <p className={styles.hotelCardName}>{props.name}</p>
-            <p className="text-small">{props.description}</p>
-            <article className={styles.hotelCardStartAndPrice}>
-                <p>{createRateStr(props.rate)}</p>
-                <p>{props.pricePerRoom}€/room</p>
+            <article className={styles.hotelCardInfo}>
+                <p className={styles.hotelCardName}>{props.name}</p>
+                <p className="text-small">{props.description}</p>
+                <article className={styles.hotelCardStartAndPrice}>
+                    <p>{createRateStr(props.rate)}</p>
+                    <p>{props.pricePerRoom}€/room</p>
+                </article>
             </article>
             <article className={styles.hotelCardButtonContainer}>
                 {renderButtons()}

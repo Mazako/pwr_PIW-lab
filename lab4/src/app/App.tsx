@@ -6,7 +6,7 @@ import {RouterProvider} from "react-router";
 import {BrowseHotelsPage} from "../pages/browse-hotels/BrowseHotelsPage";
 import {FavoriteOffersPage} from "../pages/favorite-offers/FavoriteOffersPage";
 import {MyOffersPage} from "../pages/my-offers/MyOffersPage";
-import {MainHotelPage} from "../pages/hotel-page/MainHotelPage";
+import {HotelPage} from "../pages/hotel-page/HotelPage";
 import {HeroPage} from "../pages/hero-page/HeroPage";
 import {LoginPage} from "../pages/login-page/LoginPage";
 import {RegisterPage} from "../pages/register-page/RegisterPage";
@@ -22,7 +22,7 @@ const App: React.FC = () => {
             <Route path='/browse' element={<BrowseHotelsPage/>}/>
             <Route path='/favorite' element={<FavoriteOffersPage/>}/>
             <Route path='/my-offers' element={<MyOffersPage/>}/>
-            <Route path='/hotel/:hotelId' element={<MainHotelPage/>}/>
+            <Route path='/hotel/:hotelId' element={<HotelPage/>}/>
             <Route path='/login' element={<LoginPage/>}/>
             <Route path='/register' element={<RegisterPage/>}/>
         </Route>

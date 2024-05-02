@@ -1,12 +1,14 @@
 import {forwardRef, useImperativeHandle, useRef} from "react";
 import {ModalHotelInput} from "../modal-hotel-input/ModalHotelInput";
 import {useDispatch, useSelector} from "react-redux";
-import {editedHotelSelector, updateEdited} from "../../features/HotelsSlice";
+import {editedHotelSelector, incrementUserEditions, updateEdited} from "../../features/HotelsSlice";
 import {AppDispatch} from "../../app/Store";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {containerIds} from "../../utils/ToastifyContainerIds";
 import {validateAddEditData} from "../../utils/validation";
+import {updateHotel} from "../../firebase/HotelQuerries";
+import {useNavigate} from "react-router";
 
 interface EditModalProps {
 }
@@ -17,7 +19,10 @@ export const EditModal = forwardRef<HTMLDialogElement, EditModalProps>((props, r
     const innerRef = useRef<HTMLDialogElement>(null);
     useImperativeHandle(ref, () => innerRef.current!, []);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        if (!editedHotel) {
+            return;
+        }
         const validation = validateAddEditData(
             editedHotel?.name || '',
             editedHotel?.longDescription || '',
@@ -27,7 +32,8 @@ export const EditModal = forwardRef<HTMLDialogElement, EditModalProps>((props, r
         );
 
         if (validation.valid) {
-            // dispatch(submitEdited());
+            await updateHotel(editedHotel);
+            dispatch(incrementUserEditions())
             handleClose();
             toast('Hotel edited successfully', {containerId: containerIds.main})
         } else {

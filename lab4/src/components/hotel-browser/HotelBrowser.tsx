@@ -1,54 +1,35 @@
-import {FC, ReactNode, useState} from "react";
+import {ChangeEvent, FC, ReactNode, useState} from "react";
 import styles from './HotelBrowser.module.css';
 import {useSelector} from "react-redux";
 import {allFavoriteSelector} from "../../features/HotelsSlice";
 import {HotelCard} from "../hotel-card/HotelCard";
 import {useGetAllHotelsQuery} from "../../features/HotelApi";
+import {getHotelById, HotelDTO, ShortHotelData} from "../../firebase/HotelQuerries";
 
 interface HotelBrowserProps {
     title?: string,
     searchBarTitle: string,
-    favoritesOnly: boolean,
+    data: ShortHotelData[],
+    searchText: string,
+    onSearchChange: (e: ChangeEvent<HTMLInputElement>) => void,
     showViewOffer: boolean,
-    showFavorites: boolean
-    onEdit?: (id: string) => void,
+    showFavorites: boolean,
+    onEdit?: (id: string) => Promise<void>,
     children?: ReactNode
 }
 
 export const HotelBrowser: FC<HotelBrowserProps> = (props) => {
-    const [text, setText] = useState('');
-    const favorites = useSelector(allFavoriteSelector);
-
-    const {data,  isLoading, error} = useGetAllHotelsQuery({lim: 4, search: text})
-
-    const editHandler = (id: string) => {
-        if (props.onEdit) {
-            //@ts-ignore
-            return () => props.onEdit(id);
-        } else {
-            return undefined;
-        }
-    }
-
-    if (isLoading) {
-        return <></>;
-    }
-
-    let hotels = data;
-    if (props.favoritesOnly && hotels) {
-        hotels = hotels.filter(hotel => favorites[hotel.id]);
-    }
 
     return (
         <section className={styles.hotelCards} style={!props.title ? {paddingTop: 24} : {}}>
             <article className={styles.hotelCardsHeader}>
                 {props.title}
             </article>
-            <input className={styles.searchbar} placeholder={props.searchBarTitle} value={text}
-                   onChange={e => setText(e.target.value)}/>
+            <input className={styles.searchbar} placeholder={props.searchBarTitle} value={props.searchText}
+                   onChange={props.onSearchChange}/>
             <section className="grid">
                 {
-                    hotels?.map((hotel) => {
+                    props.data.map((hotel) => {
                         return (
                             <HotelCard key={hotel.id}
                                        id={hotel.id}
@@ -59,8 +40,8 @@ export const HotelBrowser: FC<HotelBrowserProps> = (props) => {
                                        location={hotel.location}
                                        rate={hotel.localCategory}
                                        pricePerRoom={hotel.price}
-                                       imgPath={hotel.bigImgPath}
-                                       onEdit={editHandler(hotel.id)}/>
+                                       imgPath={hotel.imgPath}
+                                       onEdit={props.onEdit}/>
                         );
                     })
                 }

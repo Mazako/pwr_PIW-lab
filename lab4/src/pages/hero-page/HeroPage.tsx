@@ -1,10 +1,18 @@
-import {FC} from "react";
+import {FC, useState} from "react";
 import {HotelBrowser} from "../../components/hotel-browser/HotelBrowser";
 import styles from './HeroPage.module.css';
 import {useNavigate} from "react-router";
+import {useGetAllHotelsQuery} from "../../features/HotelApi";
+import {toShortHotelData} from "../../firebase/HotelQuerries";
 
 export const HeroPage: FC = () => {
     const navigate = useNavigate();
+    const [text, setText] = useState('');
+    const {data, isLoading, error} = useGetAllHotelsQuery({lim: 4, search: text})
+
+    if (isLoading || !data) {
+        return <></>;
+    }
 
     return (
         <section>
@@ -25,8 +33,11 @@ export const HeroPage: FC = () => {
                 </article>
                 <div className={styles['hero-image-container']}></div>
             </section>
-            <HotelBrowser searchBarTitle='Explore the hotels' favoritesOnly={false} showViewOffer={false}
-                          showFavorites={false}>
+            <HotelBrowser searchBarTitle='Explore the hotels'
+                          searchText={text} onSearchChange={e => setText(e.target.value)}
+                          showViewOffer={false}
+                          showFavorites={false}
+                        data={data.map(toShortHotelData)}>
                 <button className="button secondary" style={{width: '15%'}} onClick={() => navigate('/browse')}>
                     Find more
                     <img src="/assets/icons/arrow.svg"/>

@@ -38,7 +38,19 @@
     padding: 16px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     row-gap: 24px;
+    min-height: 625px;
+}
+
+.hotelCardInfo {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+}
+
+.hotelCardInfo > p:nth-child(2) {
+    min-height: 96px;
 }
 
 .hotelCardStartAndPrice {

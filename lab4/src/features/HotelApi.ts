@@ -5,8 +5,8 @@ export const hotelApi = createApi({
     reducerPath: 'hotelsApi',
     baseQuery: fakeBaseQuery(),
     endpoints: (builder) => ({
-        getHotelById: builder.query<HotelDTO, string>({
-            queryFn: async (id) => {
+        getHotelById: builder.query<HotelDTO, { id: string, time: number }>({
+            queryFn: async ({id}) => {
                 return {data: await getHotelById(id)};
             }
         }),

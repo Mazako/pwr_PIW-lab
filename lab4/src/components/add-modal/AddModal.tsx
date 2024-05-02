@@ -1,11 +1,15 @@
 import {forwardRef, useImperativeHandle, useRef, useState} from "react";
 import {ModalHotelInput} from "../modal-hotel-input/ModalHotelInput";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../../app/Store";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {containerIds} from "../../utils/ToastifyContainerIds";
 import {validateAddEditData} from "../../utils/validation";
+import {getAuth} from "firebase/auth";
+import {loggedInSelector} from "../../features/LoggedInSlice";
+import {addHotel} from "../../firebase/HotelQuerries";
+import {incrementUserEditions} from "../../features/HotelsSlice";
 
 interface EditModalProps {
 }
@@ -16,33 +20,53 @@ export const AddModal = forwardRef<HTMLDialogElement, EditModalProps>((props, re
     const [location, setLocation] = useState('');
     const [price, setPrice] = useState('');
     const [localCategory, setLocalCategory] = useState('');
+    const auth = getAuth();
+    const dispatch = useDispatch();
 
     const innerRef = useRef<HTMLDialogElement>(null);
     useImperativeHandle(ref, () => innerRef.current!, []);
 
-    const dispatch: AppDispatch = useDispatch();
+    const clearInput = () => {
+        setName('');
+        setDescription('');
+        setLocation('');
+        setPrice('');
+        setLocalCategory('');
+    }
 
-    const handleAddButtonClick = () => {
-        // const validation = validateAddEditData(name, description, location, price, localCategory);
-        // if (validation.valid) {
-        //     dispatch(addHotel({
-        //         name: name,
-        //         localCategory: Number(localCategory),
-        //         location: location,
-        //         longDescription: description,
-        //         pricePerRoom: Number(price)
-        //     }));
-        //     toast('Hotel added successfully', {containerId: containerIds.main});
-        //     handleClose();
-        // } else {
-        //     toast(validation.messages, {type: 'error', containerId: containerIds.addModal });
-        // }
+    const handleAddButtonClick = async () => {
+        const validation = validateAddEditData(name, description, location, price, localCategory);
+
+        if (auth.currentUser === null) {
+            toast('Log in to add hotel', {type: 'error', containerId: containerIds.addModal });
+            return;
+        }
+
+        if (validation.valid) {
+
+            await addHotel(
+                {
+                    name: name,
+                    description: description,
+                    pricePerRoom: Number(price),
+                    location: location,
+                    localCategory: Number(localCategory)
+                },
+                auth.currentUser.uid)
+
+            toast('Hotel added successfully', {containerId: containerIds.main});
+            dispatch(incrementUserEditions())
+            handleClose();
+        } else {
+            toast(validation.messages, {type: 'error', containerId: containerIds.addModal });
+        }
 
     }
 
     const handleClose = () => {
         toast.dismiss({containerId: containerIds.addModal})
         innerRef.current?.close()
+        clearInput();
     }
 
     return (
