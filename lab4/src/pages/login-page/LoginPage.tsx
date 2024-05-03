@@ -5,7 +5,7 @@ import {useNavigate} from "react-router";
 import {FC, useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import {containerIds} from "../../utils/ToastifyContainerIds";
-import {googleRedirectLogin} from "../../firebase/firebase";
+import {googleLogin} from "../../firebase/firebase";
 import {validateLogin} from "../../utils/validation";
 
 export const LoginPage: FC = () => {
@@ -16,15 +16,17 @@ export const LoginPage: FC = () => {
     const [password, setPassword] = useState('');
 
     useEffect(() => {
-        getRedirectResult(auth)
-            .then(user => {
-                if (user) {
-                    toast('Logged in successfully', {containerId: containerIds.main});
-                    navigate('/browse');
-                } else {
-                    setUserUndefined(false);
-                }
-            })
+        // getRedirectResult(auth)
+        //     .then(user => {
+        //         if (user) {
+        //             toast('Logged in successfully', {containerId: containerIds.main});
+        //             navigate('/browse');
+        //         } else {
+        //             setUserUndefined(false);
+        //         }
+        //     }).catch(e => {
+        //         console.log(e);
+        // })
 
         onAuthStateChanged(auth, user => {
             if (user) {
@@ -37,7 +39,10 @@ export const LoginPage: FC = () => {
     }, [auth, navigate])
 
     const handleGoogleLogin = async () => {
-        await googleRedirectLogin(auth)
+        await googleLogin(auth)
+        toast('Logged in successfully', {containerId: containerIds.main});
+        navigate('/browse');
+
     }
 
     const handleClassicLogin = async () => {

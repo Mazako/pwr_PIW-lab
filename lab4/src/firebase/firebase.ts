@@ -1,5 +1,5 @@
 import {initializeApp} from "firebase/app";
-import {Auth, GoogleAuthProvider, signInWithRedirect} from "firebase/auth";
+import {Auth, GoogleAuthProvider, signInWithRedirect, signInWithPopup} from "firebase/auth";
 import {collection, getFirestore} from "firebase/firestore";
 import {getStorage, ref} from "firebase/storage"
 
@@ -17,12 +17,12 @@ export const db = getFirestore(app);
 export const storage = getStorage(app, 'gs://tranquil-travelers.appspot.com');
 export const hotelsRef = collection(db, 'hotels');
 
-export const googleRedirectLogin = (auth: Auth) => {
+export const googleLogin = (auth: Auth) => {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({
         prompt: 'select_account'
     });
 
-    return signInWithRedirect(auth, provider);
+    return signInWithPopup(auth, provider);
 }
 
