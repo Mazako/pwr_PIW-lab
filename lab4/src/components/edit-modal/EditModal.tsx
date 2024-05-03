@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import {containerIds} from "../../utils/ToastifyContainerIds";
 import {validateAddEditData} from "../../utils/validation";
 import {updateHotel} from "../../firebase/HotelQuerries";
-import {useNavigate} from "react-router";
 
 interface EditModalProps {
 }

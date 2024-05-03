@@ -1,5 +1,6 @@
 import {
     addDoc,
+    deleteDoc,
     doc,
     DocumentData,
     getDoc,
@@ -9,50 +10,13 @@ import {
     QueryFieldFilterConstraint,
     updateDoc,
     where,
-    deleteDoc
+    orderBy,
+    QueryConstraint
 } from "firebase/firestore";
 import {getDownloadURL, ref} from "firebase/storage";
 import {db, hotelsRef, storage} from "./firebase";
-import {hotels} from "../features/data";
+import {AddHotelData, HotelDTO, HotelFilterQueryParams, ShortHotelData, OrderEntry} from "./types";
 
-export interface HotelDTO {
-    id: string;
-    ownerId: string,
-    name: string,
-    longDescription: string,
-    shortDescription: string,
-    location: string,
-    localCategory: number,
-    price: number,
-    bigImgPath: string,
-    galleryImg1Path: string,
-    galleryImg2Path: string,
-}
-
-export interface HotelFilterQueryParams {
-    lim: number,
-    search?: string,
-    ownerId?: string,
-    timestamp?: number,
-}
-
-interface AddHotelData {
-    name: string,
-    description: string,
-    location: string,
-    localCategory: number,
-    pricePerRoom: number,
-}
-
-export interface ShortHotelData {
-    id: string,
-    name: string,
-    shortDescription: string,
-    location: string,
-    localCategory: number,
-    price: number,
-    imgPath: string,
-}
 
 export const toShortHotelData = (hotel: HotelDTO): ShortHotelData => {
     return {
@@ -92,21 +56,25 @@ export const getHotelById = async (id: string): Promise<HotelDTO> => {
     return convertToHotelDto(id, response.data());
 }
 
-export const searchHotels = async ({search, lim, ownerId}: HotelFilterQueryParams): Promise<HotelDTO[]> => {
-    const whereConstraints: QueryFieldFilterConstraint[] = [];
-
+export const searchHotels = async ({search, lim, ownerId, order}: HotelFilterQueryParams): Promise<HotelDTO[]> => {
+    const constraints: QueryConstraint[] = [];
     if (search && search !== '') {
-        whereConstraints.push(where('description', '>=', search));
-        whereConstraints.push(where('description', '<=', `${search}\uf8ff`));
+        constraints.push(where('description', '>=', search));
+        constraints.push(where('description', '<=', `${search}\uf8ff`));
     }
 
     if (ownerId && ownerId !== '') {
-        whereConstraints.push(where('owner_id', '==', ownerId));
+        constraints.push(where('owner_id', '==', ownerId));
+    }
+
+    if (order) {
+        console.log(order)
+        constraints.push(orderBy(order.category, order.direction))
     }
 
     const qr = query(
         hotelsRef,
-        ...whereConstraints,
+        ...constraints,
         limit(lim)
     );
 
@@ -138,7 +106,7 @@ export const removeHotel = async (id: string): Promise<void> => {
     await deleteDoc(doc(db, 'hotels', id));
 }
 
-export const updateHotel = async(hotel: HotelDTO): Promise<void> => {
+export const updateHotel = async (hotel: HotelDTO): Promise<void> => {
     const ref = doc(db, 'hotels', hotel.id);
 
     await updateDoc(ref, {

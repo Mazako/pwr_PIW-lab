@@ -7,6 +7,7 @@ import {getAuth} from "firebase/auth";
 import {getHotelById, toShortHotelData} from "../../firebase/HotelQuerries";
 import {useDispatch, useSelector} from "react-redux";
 import {initEdit, userEditionsSelector} from "../../features/HotelsSlice";
+import {SelectType} from "../../components/hotel-browser/selectTypes";
 
 export const MyOffersPage: FC = () => {
     const timestamp = useRef(Date.now()).current;
@@ -14,6 +15,8 @@ export const MyOffersPage: FC = () => {
 
     const ref = useRef<HTMLDialogElement>(null);
     const [text, setText] = useState('');
+    const [select, setSelect] = useState<SelectType>('default');
+
     const auth = getAuth();
     const dispatch = useDispatch();
 
@@ -24,13 +27,16 @@ export const MyOffersPage: FC = () => {
         timestamp: timestamp + editions.count
     })
     console.log('xD');
+    if (!auth.currentUser) {
+        return <Header title={'Log in, to view our offers'} />
+    }
+
     if (isLoading || !data) {
         return <></>;
     }
 
     const handleEditClick = async (id: string) => {
         const hotel = await getHotelById(id);
-        console.log('xD')
         dispatch(initEdit(hotel));
         ref.current?.showModal()
     }
@@ -43,6 +49,8 @@ export const MyOffersPage: FC = () => {
                           showViewOffer={true}
                           showFavorites={false}
                           searchText={text}
+                          select={select}
+                          onSelectChange={e => setSelect(e.target.value as SelectType)}
                           onSearchChange={e => setText(e.target.value)}
                           data={data.map(toShortHotelData)}
                           onEdit={handleEditClick}/>

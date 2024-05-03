@@ -1,13 +1,11 @@
 import {forwardRef, useImperativeHandle, useRef, useState} from "react";
 import {ModalHotelInput} from "../modal-hotel-input/ModalHotelInput";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch} from "../../app/Store";
+import {useDispatch} from "react-redux";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {containerIds} from "../../utils/ToastifyContainerIds";
 import {validateAddEditData} from "../../utils/validation";
 import {getAuth} from "firebase/auth";
-import {loggedInSelector} from "../../features/LoggedInSlice";
 import {addHotel} from "../../firebase/HotelQuerries";
 import {incrementUserEditions} from "../../features/HotelsSlice";
 

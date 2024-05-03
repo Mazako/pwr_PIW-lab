@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "../app/Store";
-import {HotelDTO, ShortHotelData} from "../firebase/HotelQuerries";
+import {HotelDTO, ShortHotelData} from "../firebase/types";
 
 interface HotelsSlice {
     favoriteIds: any,

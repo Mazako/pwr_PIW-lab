@@ -25,7 +25,7 @@ export const HotelPage: FC = () => {
 
     const {data, isLoading, isError} = useGetHotelByIdQuery({
         id: hotelId || '',
-        time: timestamp + editions.count
+        time: timestamp + editions.count //Force refetch mechanism
     });
 
     const auth = getAuth();

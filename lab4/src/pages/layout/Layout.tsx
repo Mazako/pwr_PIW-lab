@@ -14,6 +14,7 @@ export const Layout: FC = () => {
     const loggedIn = useSelector(loggedInSelector);
     const auth = getAuth();
 
+    // It's first component to render, so here's mechanism to check that user is logged in or not
     useEffect(() => {
         onAuthStateChanged(auth, user => {
             if (user) {

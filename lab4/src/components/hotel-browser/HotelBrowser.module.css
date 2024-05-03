@@ -17,13 +17,35 @@
     font-size: 48px;
 }
 
+.searchAndFilter {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+}
+
+.selectContainer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.selectContainer > select {
+    padding: 12px;
+    border-radius: var(--radius-large);
+    background-color: transparent;
+}
+
 .searchbar {
-    width: 50%;
+    width: 30%;
     padding: 12px;
     border: 1px solid var(--primary-dark);
     border-radius: var(--radius-medium);
     background-color: transparent;
     text-align: center;
+    justify-self: center;
 }
 
 .searchbar:focus {
