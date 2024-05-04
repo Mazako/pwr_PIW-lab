@@ -7,6 +7,7 @@ import {toast} from "react-toastify";
 import {containerIds} from "../../utils/ToastifyContainerIds";
 import {googleLogin} from "../../firebase/firebase";
 import {validateLogin} from "../../utils/validation";
+import {addUser, userExists} from "../../firebase/UserQuerries";
 
 export const LoginPage: FC = () => {
     const auth = getAuth();
@@ -39,7 +40,18 @@ export const LoginPage: FC = () => {
     }, [auth, navigate])
 
     const handleGoogleLogin = async () => {
+        // TODO handle popup close
         await googleLogin(auth)
+        if (!await userExists(auth.currentUser?.uid)) {
+            const user = auth.currentUser;
+            if (user && user.email) {
+                const firstName = user.displayName?.split(" ")[0] || '';
+                const lastName = user.displayName?.split(" ")[1] || '';
+                const id = user.uid;
+                const email = user.email;
+                await addUser({firstName, lastName, id, email})
+            }
+        }
         toast('Logged in successfully', {containerId: containerIds.main});
         navigate('/browse');
 

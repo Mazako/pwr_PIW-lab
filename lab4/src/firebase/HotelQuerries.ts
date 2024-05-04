@@ -7,7 +7,6 @@ import {
     getDocs,
     limit,
     query,
-    QueryFieldFilterConstraint,
     updateDoc,
     where,
     orderBy,

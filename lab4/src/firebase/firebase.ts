@@ -16,6 +16,7 @@ export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const storage = getStorage(app, 'gs://tranquil-travelers.appspot.com');
 export const hotelsRef = collection(db, 'hotels');
+export const usersRef = collection(db, 'users');
 
 export const googleLogin = (auth: Auth) => {
     const provider = new GoogleAuthProvider();

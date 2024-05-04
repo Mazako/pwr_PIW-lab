@@ -7,6 +7,7 @@ import {validateRegistration} from "../../utils/validation";
 import {toast} from "react-toastify";
 import {containerIds} from "../../utils/ToastifyContainerIds";
 import { FirebaseError } from "firebase/app";
+import {addUser} from "../../firebase/UserQuerries";
 
 export const RegisterPage: FC = () => {
     const auth = getAuth();
@@ -42,6 +43,7 @@ export const RegisterPage: FC = () => {
                 displayName: `${firstName} ${lastName}`
             });
             await sendEmailVerification(response.user);
+            await addUser({firstName, lastName, email, id: response.user.uid})
             toast('Registered successfully. Check your mail to verify your registration', {containerId: containerIds.main});
             navigate('/browse')
         } catch (e) {
