@@ -11,6 +11,7 @@ import {HeroPage} from "../pages/hero-page/HeroPage";
 import {LoginPage} from "../pages/login-page/LoginPage";
 import {RegisterPage} from "../pages/register-page/RegisterPage";
 import {enableMapSet} from 'immer'
+import {ChatPage} from "../pages/chat-page/ChatPage";
 
 const App: React.FC = () => {
     const router = createBrowserRouter(createRoutesFromElements([
@@ -22,6 +23,7 @@ const App: React.FC = () => {
             <Route path='/hotel/:hotelId' element={<HotelPage/>}/>
             <Route path='/login' element={<LoginPage/>}/>
             <Route path='/register' element={<RegisterPage/>}/>
+            <Route path='/chat' element={<ChatPage/>}/>
         </Route>
     ]))
 

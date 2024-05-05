@@ -47,6 +47,7 @@ export const Navbar: FC = () => {
                 <li><a href="#" onClick={() =>  ref.current?.showModal()}>Add new offers</a></li>
                 <li>{navLinkFactory('/my-offers', 'My offers')}</li>
                 <li>{navLinkFactory('/favorite', 'Favorites')}</li>
+                <li>{navLinkFactory('/chat', 'Chat')}</li>
                 {logInLogOutButton()}
             </ul>
             <button className="button primary hidden">Menu</button>
