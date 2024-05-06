@@ -70,3 +70,17 @@
     grid-row: 6 / span 1;
 }
 
+
+@media only screen and (max-width: 1588px) {
+    .loginForm {
+        width: 50%;
+    }
+
+}
+
+@media only screen and (max-width: 768px) {
+    .loginForm {
+        width: 96%;
+    }
+
+}
