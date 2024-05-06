@@ -1,0 +1,59 @@
+.message {
+    padding: 24px;
+    width: 51%;
+    border-radius: var(--radius-small);
+    position: relative;
+    line-height: 1.5em;
+    z-index: 1;
+
+}
+
+.author {
+    background-color: var(--primary-light);
+    margin-left: auto;
+}
+
+.author::after {
+    /*https://projects.verou.me/bubbly/*/
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 16px;
+    width: 0;
+    height: 0;
+    border: 19px solid transparent;
+    border-left-color: var(--primary-light);
+    border-right: 0;
+    border-top: 0;
+    margin-top: -9.5px;
+    margin-right: -19px;
+}
+
+.reciever {
+    background-color: #cfcfc6;
+}
+
+.reciever::after {
+    /*https://projects.verou.me/bubbly/*/
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 16px;
+    width: 0;
+    height: 0;
+    border: 19px solid transparent;
+    border-right-color: #cfcfc6;
+    border-left: 0;
+    border-top: 0;
+    margin-top: -9.5px;
+    margin-left: -19px;
+}
+
+.sendAndSeen {
+    display: flex;
+    justify-content: end;
+    gap: 16px;
+}
+.sendAndSeen > p {
+    font-weight: bold;
+}

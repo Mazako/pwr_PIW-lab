@@ -1,6 +1,7 @@
 .card {
     max-width: 100%;
     display:flex;
+    border-bottom: 1px solid black;
 }
 
 .card > img {
@@ -28,6 +29,24 @@
 .nameAndMessage > p:nth-child(1) {
     font-weight: bold;
 }
+
+.messageSent {
+    font-weight: bold;
+}
+
+.messageUnseen {
+    display: list-item;
+    list-style-image: url(/public/assets/icons/send.svg);
+    list-style-position: inside;
+}
+
+.messageViewed {
+    display: list-item;
+    list-style-image: url(/public/assets/icons/send-check-fill.svg);
+    list-style-position: inside;
+
+}
+
 
 .date {
     margin-left: auto;

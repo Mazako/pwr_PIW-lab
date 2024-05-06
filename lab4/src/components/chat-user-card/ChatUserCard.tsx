@@ -2,7 +2,7 @@ import {FC} from "react";
 
 import styles from './ChatUserCard.module.css'
 
-type MessageStatus = 'sent' | 'unseen' | 'viewed'
+type MessageStatus = 'sent' | 'unseen' | 'viewed' | 'seen'
 
 interface ChatUserCardProps {
     name: string,
@@ -12,14 +12,27 @@ interface ChatUserCardProps {
 }
 
 export const ChatUserCard: FC<ChatUserCardProps> = ({name, sendDate, lastMessage, status}) => {
+
+    const getMessageStyle = () => {
+        if (status === 'sent') {
+            return styles.messageSent;
+        } else if (status === 'unseen') {
+            return styles.messageUnseen;
+        } else if (status === 'viewed') {
+            return styles.messageViewed;
+        } else {
+            return styles.messageSeen;
+        }
+    }
+
     return (
-        <section className={styles.card}>
+        <article className={styles.card}>
             <img src='/assets/icons/empty_avatar.png' alt='avatar'/>
             <article className={styles.nameAndMessage}>
                 <p>{name}</p>
-                <p>{lastMessage}</p>
+                <p className={getMessageStyle()}>{lastMessage}</p>
             </article>
             <p className={styles.date}>{sendDate}</p>
-        </section>
+        </article>
     )
 }
