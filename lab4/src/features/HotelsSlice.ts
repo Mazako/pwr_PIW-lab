@@ -18,7 +18,7 @@ const initState: HotelsSlice = {
     userEditions: {
         count: 0
     }
-}
+};
 
 const hotelsSlice = createSlice({
     name: "hotels",
@@ -56,7 +56,7 @@ const hotelsSlice = createSlice({
             state.editingHotel = null;
         }
     }
-})
+});
 
 export const allFavoriteSelector = (state: RootState): ShortHotelData[] => Object.values(state.hotels.favoriteIds) || [];
 export const isFavoriteSelector = (state: RootState, id: string) => state.hotels.favoriteIds[id] !== undefined;

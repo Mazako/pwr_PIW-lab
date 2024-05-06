@@ -20,7 +20,7 @@ export const HeroPage: FC = () => {
         search: text,
         timestamp: timestamp + editions.count,
         order: toOrderEntry(select),
-    })
+    });
 
     if (isLoading || !data) {
         return <></>;
@@ -72,5 +72,5 @@ export const HeroPage: FC = () => {
                 </article>
             </section>
         </section>
-    )
-}
+    );
+};

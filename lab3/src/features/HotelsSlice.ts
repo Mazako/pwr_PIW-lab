@@ -22,7 +22,7 @@ const initState: HotelsSlice = {
     data: hotels,
     editingHotel: null,
     newId: hotels.length + 1,
-}
+};
 
 const hotelsSlice = createSlice({
     name: "hotels",
@@ -91,7 +91,7 @@ const hotelsSlice = createSlice({
             }
         }
     }
-})
+});
 
 export const hotelByIdSelector = (state: RootState, id: number) => state.hotels.data.find(hotel => hotel.id === id);
 
@@ -100,8 +100,8 @@ export const searchableFirstFourHotelsSelector = (state: RootState, input: strin
     data = onlyFavorite ? state.hotels.data.filter(hotel => hotel.favorite) : data;
     return data
         .filter(hotel => hotel.shortDescription.match(new RegExp(`.*${input}.*`)))
-        .slice(0, 4)
-}
+        .slice(0, 4);
+};
 
 export const editedHotelSelector = (state: RootState) => state.hotels.editingHotel;
 

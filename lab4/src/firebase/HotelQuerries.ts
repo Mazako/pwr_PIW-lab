@@ -27,7 +27,7 @@ export const toShortHotelData = (hotel: HotelDTO): ShortHotelData => {
         price: hotel.price,
         imgPath: hotel.bigImgPath
     };
-}
+};
 
 
 const convertToHotelDto = async (id: string, result: DocumentData): Promise<HotelDTO> => {
@@ -44,16 +44,16 @@ const convertToHotelDto = async (id: string, result: DocumentData): Promise<Hote
         galleryImg1Path: await getDownloadURL(ref(storage, '/' + result.gallery_image_1)),
         galleryImg2Path: await getDownloadURL(ref(storage, '/' + result.gallery_image_2)),
     };
-}
+};
 
 
 export const getHotelById = async (id: string): Promise<HotelDTO> => {
     const response = await getDoc(doc(db, 'hotels', id));
     if (!response.exists()) {
-        throw Error('XD')
+        throw Error('XD');
     }
     return convertToHotelDto(id, response.data());
-}
+};
 
 export const searchHotels = async ({search, lim, ownerId, order}: HotelFilterQueryParams): Promise<HotelDTO[]> => {
     const constraints: QueryConstraint[] = [];
@@ -67,8 +67,8 @@ export const searchHotels = async ({search, lim, ownerId, order}: HotelFilterQue
     }
 
     if (order) {
-        console.log(order)
-        constraints.push(orderBy(order.category, order.direction))
+        console.log(order);
+        constraints.push(orderBy(order.category, order.direction));
     }
 
     const qr = query(
@@ -84,7 +84,7 @@ export const searchHotels = async ({search, lim, ownerId, order}: HotelFilterQue
 
     return Promise.all(promises);
 
-}
+};
 
 export const addHotel = async (data: AddHotelData, userId: string): Promise<string> => {
     const added = await addDoc(hotelsRef, {
@@ -97,13 +97,13 @@ export const addHotel = async (data: AddHotelData, userId: string): Promise<stri
         name: data.name,
         owner_id: userId,
         price: data.pricePerRoom,
-    })
+    });
     return added.id;
-}
+};
 
 export const removeHotel = async (id: string): Promise<void> => {
     await deleteDoc(doc(db, 'hotels', id));
-}
+};
 
 export const updateHotel = async (hotel: HotelDTO): Promise<void> => {
     const ref = doc(db, 'hotels', hotel.id);
@@ -115,4 +115,4 @@ export const updateHotel = async (hotel: HotelDTO): Promise<void> => {
         price: hotel.price,
         name: hotel.name,
     });
-}
+};

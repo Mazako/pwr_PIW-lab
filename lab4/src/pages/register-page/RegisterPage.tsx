@@ -16,36 +16,36 @@ export const RegisterPage: FC = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('')
+    const [password, setPassword] = useState('');
 
     useEffect(() => {
         onAuthStateChanged(auth, user => {
             if (user) {
                 navigate('/browse');
             } else {
-                setUserUndefined(false)
+                setUserUndefined(false);
             }
-        })
+        });
 
-    }, [auth, navigate])
+    }, [auth, navigate]);
 
     const handleRegistration = async () => {
         const validation = validateRegistration(firstName, lastName, email, password);
         if (!validation.valid) {
-            toast(validation.messages, {containerId: containerIds.main, type: 'error'})
+            toast(validation.messages, {containerId: containerIds.main, type: 'error'});
             return;
         }
 
         try {
-            const response = await createUserWithEmailAndPassword(auth, email, password)
+            const response = await createUserWithEmailAndPassword(auth, email, password);
             await auth.signOut();
             await updateProfile(response.user, {
                 displayName: `${firstName} ${lastName}`
             });
             await sendEmailVerification(response.user);
-            await addUser({firstName, lastName, email, id: response.user.uid})
+            await addUser({firstName, lastName, email, id: response.user.uid});
             toast('Registered successfully. Check your mail to verify your registration', {containerId: containerIds.main});
-            navigate('/browse')
+            navigate('/browse');
         } catch (e) {
             if (e instanceof FirebaseError) {
                 switch (e.code) {
@@ -62,10 +62,10 @@ export const RegisterPage: FC = () => {
                 }
             }
         }
-    }
+    };
 
     if (userUndefined) {
-        return <></>
+        return <></>;
     }
 
     return (
@@ -93,6 +93,6 @@ export const RegisterPage: FC = () => {
                 </button>
             </article>
         </section>
-    )
+    );
 
-}
+};

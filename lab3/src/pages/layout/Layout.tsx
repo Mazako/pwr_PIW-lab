@@ -12,5 +12,5 @@ export const Layout: FC = () => {
             <Outlet/>
             <ToastContainer containerId={containerIds.main} position='bottom-right'/>
         </main>
-    )
-}
+    );
+};

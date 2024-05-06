@@ -7,7 +7,7 @@ import {SelectType} from "../../components/hotel-browser/selectTypes";
 
 export const FavoriteOffersPage: FC = () => {
     const [text, setText] = useState('');
-    const data = useSelector(allFavoriteSelector)
+    const data = useSelector(allFavoriteSelector);
     const [select, setSelect] = useState<SelectType>('default');
 
     return (
@@ -23,5 +23,5 @@ export const FavoriteOffersPage: FC = () => {
                           onSelectChange={e => setSelect(e.target.value as SelectType)}
             />
         </section>
-    )
-}
+    );
+};

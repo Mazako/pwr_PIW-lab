@@ -18,11 +18,11 @@ const App: React.FC = () => {
             <Route path='/my-offers' element={<MyOffersPage/>}/>
             <Route path='/hotel/:hotelId' element={<MainHotelPage/>}/>
         </Route>
-    ]))
+    ]));
 
     return (
         <RouterProvider router={router}/>
     );
-}
+};
 
 export default App;

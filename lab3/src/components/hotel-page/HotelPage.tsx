@@ -53,7 +53,7 @@ export const HotelPage: FC<HotelPageProps> = ({hotel, showContact, showEdit, sho
                     dispatch(initEdit(hotel.id));
                     editRef.current.showModal();
                 }
-            }
+            };
 
             arr.push(
                 <button key='btn-edit' className="button primary" onClick={handleEdit}>
@@ -67,7 +67,7 @@ export const HotelPage: FC<HotelPageProps> = ({hotel, showContact, showEdit, sho
             const handleRemove = () => {
                 dispatch(removeHotel(hotel.id));
                 navigate('/browse');
-            }
+            };
 
             arr.push(
                 <button key='btn-remove' className="button primary" onClick={handleRemove}>

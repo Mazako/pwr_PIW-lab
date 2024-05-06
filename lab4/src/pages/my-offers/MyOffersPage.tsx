@@ -25,10 +25,10 @@ export const MyOffersPage: FC = () => {
         search: text,
         ownerId: auth.currentUser?.uid,
         timestamp: timestamp + editions.count
-    })
+    });
     console.log('xD');
     if (!auth.currentUser) {
-        return <Header title={'Log in, to view our offers'} />
+        return <Header title={'Log in, to view our offers'} />;
     }
 
     if (isLoading || !data) {
@@ -38,8 +38,8 @@ export const MyOffersPage: FC = () => {
     const handleEditClick = async (id: string) => {
         const hotel = await getHotelById(id);
         dispatch(initEdit(hotel));
-        ref.current?.showModal()
-    }
+        ref.current?.showModal();
+    };
 
     return (
         <section>
@@ -55,6 +55,6 @@ export const MyOffersPage: FC = () => {
                           data={data.map(toShortHotelData)}
                           onEdit={handleEditClick}/>
         </section>
-    )
+    );
 
-}
+};

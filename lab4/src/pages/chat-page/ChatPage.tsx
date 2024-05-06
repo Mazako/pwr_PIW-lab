@@ -54,5 +54,5 @@ export const ChatPage: FC = () => {
                 </article>
             </section>
         </section>
-    )
-}
+    );
+};

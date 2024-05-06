@@ -14,7 +14,7 @@ interface EditModalProps {
 
 export const EditModal = forwardRef<HTMLDialogElement, EditModalProps>((props, ref) => {
     const editedHotel = useSelector(editedHotelSelector);
-    const dispatch: AppDispatch = useDispatch()
+    const dispatch: AppDispatch = useDispatch();
     const innerRef = useRef<HTMLDialogElement>(null);
     useImperativeHandle(ref, () => innerRef.current!, []);
 
@@ -32,18 +32,18 @@ export const EditModal = forwardRef<HTMLDialogElement, EditModalProps>((props, r
 
         if (validation.valid) {
             await updateHotel(editedHotel);
-            dispatch(incrementUserEditions())
+            dispatch(incrementUserEditions());
             handleClose();
-            toast('Hotel edited successfully', {containerId: containerIds.main})
+            toast('Hotel edited successfully', {containerId: containerIds.main});
         } else {
-            toast(validation.messages, {containerId: containerIds.editModal, type: 'error'})
+            toast(validation.messages, {containerId: containerIds.editModal, type: 'error'});
         }
-    }
+    };
 
     const handleClose = () => {
-        toast.dismiss({containerId: containerIds.editModal})
-        innerRef.current?.close()
-    }
+        toast.dismiss({containerId: containerIds.editModal});
+        innerRef.current?.close();
+    };
 
 
     return (
@@ -88,5 +88,5 @@ export const EditModal = forwardRef<HTMLDialogElement, EditModalProps>((props, r
             </form>
             <ToastContainer containerId={containerIds.editModal} position='bottom-right' />
         </dialog>
-    )
+    );
 });

@@ -25,5 +25,5 @@ export const ChatMessage: FC<ChatMessageProps> = ({message, seen, date, author})
 
             }
         </article>
-    )
-}
+    );
+};

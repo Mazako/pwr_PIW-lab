@@ -33,15 +33,15 @@ export const LoginPage: FC = () => {
             if (user) {
                 navigate('/browse');
             } else {
-                setUserUndefined(false)
+                setUserUndefined(false);
             }
-        })
+        });
 
-    }, [auth, navigate])
+    }, [auth, navigate]);
 
     const handleGoogleLogin = async () => {
         // TODO handle popup close
-        await googleLogin(auth)
+        await googleLogin(auth);
         if (!await userExists(auth.currentUser?.uid)) {
             const user = auth.currentUser;
             if (user && user.email) {
@@ -49,13 +49,13 @@ export const LoginPage: FC = () => {
                 const lastName = user.displayName?.split(" ")[1] || '';
                 const id = user.uid;
                 const email = user.email;
-                await addUser({firstName, lastName, id, email})
+                await addUser({firstName, lastName, id, email});
             }
         }
         toast('Logged in successfully', {containerId: containerIds.main});
         navigate('/browse');
 
-    }
+    };
 
     const handleClassicLogin = async () => {
         const validation = validateLogin(email, password);
@@ -71,7 +71,7 @@ export const LoginPage: FC = () => {
                 toast('User is not verified. Check your mail to verify account', {
                     containerId: containerIds.main,
                     type: 'warning'
-                })
+                });
             } else {
                 toast('Logged in successfully', {containerId: containerIds.main});
             }
@@ -79,7 +79,7 @@ export const LoginPage: FC = () => {
             toast('Invalid data', {containerId: containerIds.main, type: 'error'});
         }
 
-    }
+    };
 
     if (userUndefined) {
         return <></>;

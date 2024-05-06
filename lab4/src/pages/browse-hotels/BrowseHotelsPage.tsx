@@ -18,7 +18,7 @@ export const BrowseHotelsPage: FC = () => {
         search: text,
         timestamp: timestamp + editions.count,
         order: toOrderEntry(select)
-    })
+    });
 
 
     if (isLoading || !data) {
@@ -39,5 +39,5 @@ export const BrowseHotelsPage: FC = () => {
                           data={data.map(toShortHotelData)}
             />
         </section>
-    )
-}
+    );
+};

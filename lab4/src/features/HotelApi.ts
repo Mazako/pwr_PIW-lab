@@ -18,6 +18,6 @@ export const hotelApi = createApi({
             }
         })
     })
-})
+});
 
 export const {useGetHotelByIdQuery, useGetAllHotelsQuery} = hotelApi;

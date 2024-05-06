@@ -12,8 +12,8 @@ export const MyOffersPage: FC = () => {
 
     const handleEditClick = (id: number) => {
         dispatch(initEdit(id));
-        ref.current?.showModal()
-    }
+        ref.current?.showModal();
+    };
 
     return (
         <section>
@@ -25,6 +25,6 @@ export const MyOffersPage: FC = () => {
                           favoritesOnly={false}
                         onEdit={handleEditClick}/>
         </section>
-    )
+    );
 
-}
+};

@@ -21,21 +21,21 @@ export const Navbar: FC = () => {
                     {text}
                 </NavLink>
         );
-    }
+    };
 
     const handleLogout = async () => {
         await signOut(auth);
         toast('Logged out', {containerId: containerIds.main});
-    }
+    };
 
 
     const logInLogOutButton = () => {
         if (!loggedIn) {
-            return <button className="button primary" onClick={() => navigate('/login')}>Log in</button>
+            return <button className="button primary" onClick={() => navigate('/login')}>Log in</button>;
         } else {
-            return <button className="button primary" onClick={handleLogout}>Log out</button>
+            return <button className="button primary" onClick={handleLogout}>Log out</button>;
         }
-    }
+    };
 
     return (
         <nav className={styles.navbar}>

@@ -30,7 +30,7 @@ export const AddModal = forwardRef<HTMLDialogElement, EditModalProps>((props, re
         setLocation('');
         setPrice('');
         setLocalCategory('');
-    }
+    };
 
     const handleAddButtonClick = async () => {
         const validation = validateAddEditData(name, description, location, price, localCategory);
@@ -50,22 +50,22 @@ export const AddModal = forwardRef<HTMLDialogElement, EditModalProps>((props, re
                     location: location,
                     localCategory: Number(localCategory)
                 },
-                auth.currentUser.uid)
+                auth.currentUser.uid);
 
             toast('Hotel added successfully', {containerId: containerIds.main});
-            dispatch(incrementUserEditions())
+            dispatch(incrementUserEditions());
             handleClose();
         } else {
             toast(validation.messages, {type: 'error', containerId: containerIds.addModal });
         }
 
-    }
+    };
 
     const handleClose = () => {
-        toast.dismiss({containerId: containerIds.addModal})
-        innerRef.current?.close()
+        toast.dismiss({containerId: containerIds.addModal});
+        innerRef.current?.close();
         clearInput();
-    }
+    };
 
     return (
         <dialog ref={innerRef} onClose={handleClose}>
@@ -97,5 +97,5 @@ export const AddModal = forwardRef<HTMLDialogElement, EditModalProps>((props, re
             </form>
             <ToastContainer containerId={containerIds.addModal} position='bottom-right'/>
         </dialog>
-    )
+    );
 });

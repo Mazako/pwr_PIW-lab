@@ -20,5 +20,5 @@ export const toOrderEntry = (select: SelectType): OrderEntry | undefined => {
     return {
         category: data[0] as OrderCategory,
         direction: data[1] as OrderDirection,
-    }
-}
+    };
+};

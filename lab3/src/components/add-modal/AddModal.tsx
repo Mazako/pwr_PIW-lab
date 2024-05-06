@@ -39,12 +39,12 @@ export const AddModal = forwardRef<HTMLDialogElement, EditModalProps>((props, re
             toast(<div>{validation.messages}</div>, {type: 'error', containerId: containerIds.addModal });
         }
 
-    }
+    };
 
     const handleClose = () => {
-        toast.dismiss({containerId: containerIds.addModal})
-        innerRef.current?.close()
-    }
+        toast.dismiss({containerId: containerIds.addModal});
+        innerRef.current?.close();
+    };
 
     return (
         <dialog ref={innerRef} onClose={handleClose}>
@@ -76,5 +76,5 @@ export const AddModal = forwardRef<HTMLDialogElement, EditModalProps>((props, re
             </form>
             <ToastContainer containerId={containerIds.addModal} position='bottom-right'/>
         </dialog>
-    )
+    );
 });

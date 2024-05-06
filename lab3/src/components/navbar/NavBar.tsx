@@ -13,7 +13,7 @@ export const Navbar: FC = () => {
                     {text}
                 </NavLink>
         );
-    }
+    };
 
     return (
         <nav className={styles.navbar}>

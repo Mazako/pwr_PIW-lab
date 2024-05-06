@@ -21,10 +21,10 @@ export interface BasicHotelCardProps {
 
 
 export const HotelCard: FC<BasicHotelCardProps> = (props) => {
-    const dispatch: AppDispatch = useDispatch()
-    const isFavorite = useSelector((state: RootState) => isFavoriteSelector(state, props.id))
+    const dispatch: AppDispatch = useDispatch();
+    const isFavorite = useSelector((state: RootState) => isFavoriteSelector(state, props.id));
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const renderFav = () => {
         if (props.showFavorite) {
@@ -40,7 +40,7 @@ export const HotelCard: FC<BasicHotelCardProps> = (props) => {
                         name: props.name,
                         localCategory: props.rate,
                         shortDescription: props.description
-                    }))
+                    }));
                 }
             };
 
@@ -50,35 +50,35 @@ export const HotelCard: FC<BasicHotelCardProps> = (props) => {
                          onClick={handleFavoriteClick}
                          alt='Heart icon'/>
                 </button>
-            )
+            );
         }
     };
 
     const renderButtons = () => {
-        const buttons = []
+        const buttons = [];
         if (props.showViewOfferButton) {
             buttons.push(
                 <button key='btn-view' className="button primary" onClick={() => navigate(`/hotel/${props.id}`)}>
                     View offer
                     <img src="/assets/icons/arrow.svg" alt="Arrow"/>
                 </button>
-            )
+            );
         }
 
         if (props.onEdit) {
             const handleEditClick = async () => {
                 // @ts-ignore
                 await props.onEdit(props.id);
-            }
+            };
             buttons.push(
                 <button key='btn-edit' className='button primary' onClick={handleEditClick}>
                     Edit offer
                     <img src='/assets/icons/pencil.svg' alt='Edit icon'/>
                 </button>
-            )
+            );
         }
         return buttons;
-    }
+    };
 
     return (
         <section className={styles.hotelCard}>

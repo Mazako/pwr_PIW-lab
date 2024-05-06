@@ -17,7 +17,7 @@ const loggedInSlice = createSlice({
             state.loggedIn = action.payload;
         }
     }
-})
+});
 
 
 export const loggedInSelector = (state: RootState) => state.loggedIn.loggedIn;

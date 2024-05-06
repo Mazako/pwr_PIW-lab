@@ -25,9 +25,9 @@ export const ContactModal = forwardRef<HTMLDialogElement, ContactModalProps>((pr
     };
 
     const handleClose = () => {
-        toast.dismiss({containerId: containerIds.contactModal})
+        toast.dismiss({containerId: containerIds.contactModal});
         innerRef.current?.close();
-    }
+    };
 
     return (
         <dialog ref={innerRef} onClose={handleClose}>
@@ -51,5 +51,5 @@ export const ContactModal = forwardRef<HTMLDialogElement, ContactModalProps>((pr
             </form>
             <ToastContainer containerId={containerIds.contactModal} position='bottom-right'/>
         </dialog>
-    )
+    );
 });

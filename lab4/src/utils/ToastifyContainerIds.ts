@@ -3,4 +3,4 @@ export const containerIds = {
     contactModal: 'contactModal',
     editModal: 'editModal',
     addModal: 'addModal',
-}
+};

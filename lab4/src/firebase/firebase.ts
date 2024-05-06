@@ -25,5 +25,5 @@ export const googleLogin = (auth: Auth) => {
     });
 
     return signInWithPopup(auth, provider);
-}
+};
 

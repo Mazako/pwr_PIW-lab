@@ -10,11 +10,11 @@ import {useNavigate} from "react-router";
 
 //TODO make proper width of buttons
 export const HotelCard: FC<BasicHotelCardProps> = (props) => {
-    const dispatch: AppDispatch = useDispatch()
+    const dispatch: AppDispatch = useDispatch();
     const handleFavoriteClick = () => {
         dispatch(toggleFavorite(props.id));
     };
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const renderFav = () => {
         if (props.showFavorite) {
@@ -24,19 +24,19 @@ export const HotelCard: FC<BasicHotelCardProps> = (props) => {
                          onClick={handleFavoriteClick}
                          alt='Heart icon'/>
                 </button>
-            )
+            );
         }
     };
 
     const renderButtons = () => {
-        const buttons = []
+        const buttons = [];
         if (props.showViewOfferButton) {
             buttons.push(
                 <button key='btn-view' className="button primary" onClick={() => navigate(`/hotel/${props.id}`)}>
                     View offer
                     <img src="/assets/icons/arrow.svg" alt="Arrow"/>
                 </button>
-            )
+            );
         }
 
         if (props.onEdit) {
@@ -45,10 +45,10 @@ export const HotelCard: FC<BasicHotelCardProps> = (props) => {
                     Edit offer
                     <img src='/assets/icons/pencil.svg' alt='Edit icon'/>
                 </button>
-            )
+            );
         }
         return buttons;
-    }
+    };
 
     return (
         <section className={styles.hotelCard}>

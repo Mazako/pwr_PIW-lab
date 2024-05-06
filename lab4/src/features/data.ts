@@ -68,9 +68,9 @@ export const hotels: Array<HotelData> = [
         favorite: false,
         owner: false
     },
-]
+];
 
 export const findHotelById = (id: number): HotelData | undefined => {
     return hotels.find((hotel) => hotel.id === id);
-}
+};
 

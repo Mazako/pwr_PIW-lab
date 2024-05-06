@@ -26,7 +26,7 @@ export const HotelBrowser: FC<HotelBrowserProps> = (props) => {
         } else {
             return undefined;
         }
-    }
+    };
 
     return (
         <section className={styles.hotelCards} style={!props.title ? {paddingTop: 24} : {}}>

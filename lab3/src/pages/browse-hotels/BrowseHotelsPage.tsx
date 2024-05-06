@@ -12,5 +12,5 @@ export const BrowseHotelsPage: FC = () => {
                           showFavorites={true}
                           favoritesOnly={false}/>
         </section>
-    )
-}
+    );
+};

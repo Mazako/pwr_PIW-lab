@@ -14,11 +14,11 @@ export const addUser = async ({firstName, lastName, email, id}: UserData) => {
         last_name: lastName,
         e_mail: email,
     });
-}
+};
 
 export const userExists = async (id: string | undefined) => {
     if (!id) {
         return false;
     }
     return (await getDoc(doc(db, 'users', id))).exists();
-}
+};

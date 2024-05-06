@@ -18,16 +18,16 @@ export const Layout: FC = () => {
     useEffect(() => {
         onAuthStateChanged(auth, user => {
             if (user) {
-                dispatch(updateLoggedIn(true))
+                dispatch(updateLoggedIn(true));
             } else {
                 dispatch(updateLoggedIn(false));
             }
-        })
+        });
 
-    }, [auth, dispatch])
+    }, [auth, dispatch]);
 
     if (loggedIn === null) {
-        return <></>
+        return <></>;
     }
 
     return (
@@ -36,5 +36,5 @@ export const Layout: FC = () => {
             <Outlet/>
             <ToastContainer containerId={containerIds.main} position='bottom-right'/>
         </main>
-    )
-}
+    );
+};

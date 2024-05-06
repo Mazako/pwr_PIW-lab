@@ -25,14 +25,14 @@ const generalValidator = (entries: ValidatorEntry[]): ValidationResults => {
                         .map(p => p.message)
                     : [];
             }
-        )
+        );
     const block = createValidationMessageBlock(messages);
     return {
         valid: block === null,
         messages: block,
-    }
+    };
 
-}
+};
 
 const NOT_EMPTY = (str: string) => str.trim() === '';
 
@@ -40,8 +40,8 @@ export const validateLogin = (email: string, password: string): ValidationResult
     return generalValidator([
         {property: email, canBeEmpty: false, messageIfEmpty: 'E-mail is empty'},
         {property: password, canBeEmpty: false, messageIfEmpty: 'Password is empty'},
-    ])
-}
+    ]);
+};
 
 export const validateRegistration = (firstName: string, lastName: string, email: string, password: string): ValidationResults => {
     return generalValidator([
@@ -49,8 +49,8 @@ export const validateRegistration = (firstName: string, lastName: string, email:
         {property: lastName, canBeEmpty: false, messageIfEmpty: 'Last name is empty'},
         {property: email, canBeEmpty: false, messageIfEmpty: 'Last name is empty'},
         {property: password, canBeEmpty: false, messageIfEmpty: 'Password is empty'},
-    ])
-}
+    ]);
+};
 
 export const validateAddEditData = (name: string,
                                     description: string,
@@ -70,7 +70,7 @@ export const validateAddEditData = (name: string,
             predicates: [{predicate: str => Number(str) <= 0, message: 'Price cannot be less or equal zero'}]
         }
     ]);
-}
+};
 
 
 const createValidationMessageBlock = (messages: string[]) => {
@@ -84,5 +84,5 @@ const createValidationMessageBlock = (messages: string[]) => {
                 messages.map(m => <p>{m}</p>)
             }
         </section>
-    )
-}
+    );
+};

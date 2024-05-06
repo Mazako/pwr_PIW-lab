@@ -12,5 +12,5 @@ export const FavoriteOffersPage: FC = () => {
                           showFavorites={true}
                           favoritesOnly={true}/>
         </section>
-    )
-}
+    );
+};

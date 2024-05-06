@@ -6,7 +6,7 @@ export const createRateStr = (rate: number): string => {
         result += i <= rate ? '★' : '☆';
     }
     return result;
-}
+};
 
 export interface ValidateAddEditDataResults {
     valid: boolean,
@@ -39,7 +39,7 @@ export const validateAddEditData = (name: string,
         messages.push(<p>Hotel price is empty</p>);
         valid = false;
     } else if (Number(price) <= 0){
-        messages.push(<p>Price cannot be less or equal zero</p>)
+        messages.push(<p>Price cannot be less or equal zero</p>);
     }
 
     if (localCategory === '') {
@@ -53,5 +53,5 @@ export const validateAddEditData = (name: string,
     return {
         valid,
         messages
-    }
-}
+    };
+};

@@ -23,7 +23,7 @@ export const ChatUserCard: FC<ChatUserCardProps> = ({name, sendDate, lastMessage
         } else {
             return styles.messageSeen;
         }
-    }
+    };
 
     return (
         <article className={styles.card}>
@@ -34,5 +34,5 @@ export const ChatUserCard: FC<ChatUserCardProps> = ({name, sendDate, lastMessage
             </article>
             <p className={styles.date}>{sendDate}</p>
         </article>
-    )
-}
+    );
+};

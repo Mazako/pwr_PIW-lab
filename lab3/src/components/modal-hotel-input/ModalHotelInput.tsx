@@ -60,4 +60,4 @@ export const ModalHotelInput: FC<HotelModalInputProps> = (props) => {
                    onChange={props.onLocalCategoryChange}/>
         </section>
     );
-}
+};

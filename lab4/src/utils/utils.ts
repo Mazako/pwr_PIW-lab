@@ -4,4 +4,4 @@ export const createRateStr = (rate: number): string => {
         result += i <= rate ? '★' : '☆';
     }
     return result;
-}
+};

@@ -9,16 +9,16 @@ export const MainHotelPage: FC = () => {
     const {hotelId} = useParams();
     const hotel = useSelector((state: RootState) => hotelByIdSelector(state, Number(hotelId)));
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!hotel) {
-            navigate('/browse')
+            navigate('/browse');
         }
-    }, [hotel, navigate])
+    }, [hotel, navigate]);
 
     if (!hotel) {
-        return <p>Loading...</p>
+        return <p>Loading...</p>;
     }
 
     if (hotel.owner) {
@@ -28,7 +28,7 @@ export const MainHotelPage: FC = () => {
                        showContact={false}
                        showEdit={true}
                        showRemove={true}/>
-        )
+        );
     } else {
         return (
             <HotelPage hotel={hotel}
@@ -36,7 +36,7 @@ export const MainHotelPage: FC = () => {
                        showContact={true}
                        showEdit={false}
                        showRemove={false}/>
-        )
+        );
     }
 
-}
+};

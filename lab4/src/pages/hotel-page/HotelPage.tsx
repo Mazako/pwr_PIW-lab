@@ -43,7 +43,7 @@ export const HotelPage: FC = () => {
 
         return <></>;
     }
-    const isOwner = data?.ownerId === auth.currentUser?.uid
+    const isOwner = data?.ownerId === auth.currentUser?.uid;
 
     const renderFavButton = () => {
         if (isOwner) {
@@ -83,7 +83,7 @@ export const HotelPage: FC = () => {
                     dispatch(initEdit(data));
                     editRef.current.showModal();
                 }
-            }
+            };
 
             arr.push(
                 <button key='btn-edit' className="button primary" onClick={handleEdit}>
@@ -98,7 +98,7 @@ export const HotelPage: FC = () => {
                     dispatch(removeFromFavorites(data.id));
                 }
                 navigate('/my-offers');
-            }
+            };
 
             arr.push(
                 <button key='btn-remove' className="button primary" onClick={handleRemove}>
@@ -140,4 +140,4 @@ export const HotelPage: FC = () => {
         </section>
     );
 
-}
+};
