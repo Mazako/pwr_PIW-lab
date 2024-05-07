@@ -1,5 +1,5 @@
-import {doc, getDoc, setDoc} from "firebase/firestore";
-import {db} from "./firebase";
+import {doc, getDoc, getDocs, query, setDoc} from "firebase/firestore";
+import {db, usersRef} from "./firebase";
 
 export interface UserData {
     firstName: string;
@@ -21,4 +21,17 @@ export const userExists = async (id: string | undefined) => {
         return false;
     }
     return (await getDoc(doc(db, 'users', id))).exists();
+};
+
+export const getAllUsers = async(): Promise<UserData[]> => {
+    const q = query(usersRef);
+    const results = await getDocs(q);
+    return results.docs.map(r => {
+        return {
+            firstName: r.data().first_name,
+            lastName: r.data().last_name,
+            email: r.data().e_mail,
+            id: r.id
+        } as UserData;
+    });
 };

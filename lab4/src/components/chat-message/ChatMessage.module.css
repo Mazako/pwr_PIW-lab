@@ -5,7 +5,10 @@
     position: relative;
     line-height: 1.5em;
     z-index: 1;
+}
 
+.message:nth-last-child(2) .sendAndSeen img {
+    display: block;
 }
 
 .author {
@@ -54,6 +57,11 @@
     justify-content: end;
     gap: 16px;
 }
+
+.sendAndSeen img {
+    display: none;
+}
+
 .sendAndSeen > p {
     font-weight: bold;
 }
