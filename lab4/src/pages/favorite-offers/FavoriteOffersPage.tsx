@@ -1,4 +1,4 @@
-import {FC, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {Header} from "../../components/header/Header";
 import {HotelBrowser} from "../../components/hotel-browser/HotelBrowser";
 import {SelectType} from "../../components/hotel-browser/selectTypes";
@@ -7,8 +7,12 @@ import {ShortHotelData} from "../../firebase/types";
 
 export const FavoriteOffersPage: FC = () => {
     const [text, setText] = useState('');
-    const [data] = useState<ShortHotelData[]>(getAllFavorites());
     const [select, setSelect] = useState<SelectType>('default');
+    const [data, setData] = useState<ShortHotelData[]>(getAllFavorites(select, text));
+
+    useEffect(() => {
+        setData(getAllFavorites(select, text));
+    }, [select, text]);
 
     return (
         <section>
