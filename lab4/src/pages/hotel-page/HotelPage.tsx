@@ -1,14 +1,11 @@
-import {FC, useRef} from "react";
+import {FC, useEffect, useRef, useState} from "react";
 import {Navigate, useNavigate, useParams} from "react-router";
 import {useGetHotelByIdQuery} from "../../features/HotelApi";
 import {getAuth} from "firebase/auth";
 import {AppDispatch, RootState} from "../../app/Store";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addToFavorites,
     initEdit,
-    isFavoriteSelector,
-    removeFromFavorites,
     userEditionsSelector
 } from "../../features/HotelsSlice";
 import {removeHotel, toShortHotelData} from "../../firebase/HotelQuerries";
@@ -17,6 +14,7 @@ import {EditModal} from "../../components/edit-modal/EditModal";
 import {Header} from "../../components/header/Header";
 import styles from "./HotelPage.module.css";
 import {createRateStr} from "../../utils/utils";
+import {addToFavorites, isFavorite, removeFromFavorite} from "../../features/favoriteHotelsManager";
 
 export const HotelPage: FC = () => {
     const timestamp = useRef(Date.now()).current;
@@ -32,33 +30,36 @@ export const HotelPage: FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const contactRef = useRef<HTMLDialogElement>(null);
     const editRef = useRef<HTMLDialogElement>(null);
-    const isFavorite = useSelector((state: RootState) => isFavoriteSelector(state, data?.id || ''));
+    const [isFav, setIsFav] = useState<boolean>(isFavorite(data?.id || ''));
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setIsFav(isFavorite(data?.id || ''));
+    }, [data]);
 
     if (isError) {
         return <Navigate to='/browse'/>;
     }
 
     if (isLoading || data === undefined) {
-
         return <></>;
     }
     const isOwner = data?.ownerId === auth.currentUser?.uid;
-
     const renderFavButton = () => {
-        if (isOwner) {
+        if (!isOwner) {
             const handleFavoriteClick = () => {
-                if (isFavorite) {
-                    dispatch(removeFromFavorites(data.id));
+                if (isFav) {
+                    removeFromFavorite(data.id);
                 } else {
-                    dispatch(addToFavorites(toShortHotelData(data)));
+                    addToFavorites(toShortHotelData(data));
                 }
+                setIsFav(isFavorite(data.id));
             };
 
             return (
                 <button className="button secondary" onClick={handleFavoriteClick}>
-                    {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-                    <img src={isFavorite ? '/assets/icons/filled-heart.svg' : '/assets/icons/empty-heart.svg'}
+                    {isFav ? 'Remove from favorites' : 'Add to favorites'}
+                    <img src={isFav ? '/assets/icons/filled-heart.svg' : '/assets/icons/empty-heart.svg'}
                          alt="heart"/>
                 </button>
             );
@@ -94,8 +95,8 @@ export const HotelPage: FC = () => {
 
             const handleRemove = async () => {
                 await removeHotel(data.id);
-                if (isFavorite) {
-                    dispatch(removeFromFavorites(data.id));
+                if (isFav) {
+                    removeFromFavorite(data.id);
                 }
                 navigate('/my-offers');
             };

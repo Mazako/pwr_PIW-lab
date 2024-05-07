@@ -1,10 +1,8 @@
-import {FC} from "react";
+import {FC, useState} from "react";
 import styles from './HotelCard.module.css';
 import {createRateStr} from "../../utils/utils";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "../../app/Store";
 import {useNavigate} from "react-router";
-import {addToFavorites, isFavoriteSelector, removeFromFavorites} from "../../features/HotelsSlice";
+import {addToFavorites, isFavorite, removeFromFavorite} from "../../features/favoriteHotelsManager";
 
 export interface BasicHotelCardProps {
     id: string
@@ -21,18 +19,17 @@ export interface BasicHotelCardProps {
 
 
 export const HotelCard: FC<BasicHotelCardProps> = (props) => {
-    const dispatch: AppDispatch = useDispatch();
-    const isFavorite = useSelector((state: RootState) => isFavoriteSelector(state, props.id));
+    const [isFav, setIsFav] = useState<boolean>(isFavorite(props.id));
 
     const navigate = useNavigate();
 
     const renderFav = () => {
         if (props.showFavorite) {
             const handleFavoriteClick = () => {
-                if (isFavorite) {
-                    dispatch(removeFromFavorites(props.id));
+                if (isFav) {
+                    removeFromFavorite(props.id);
                 } else {
-                    dispatch(addToFavorites({
+                    addToFavorites({
                         id: props.id,
                         imgPath: props.imgPath,
                         price: props.pricePerRoom,
@@ -40,13 +37,14 @@ export const HotelCard: FC<BasicHotelCardProps> = (props) => {
                         name: props.name,
                         localCategory: props.rate,
                         shortDescription: props.description
-                    }));
+                    });
                 }
+                setIsFav(isFavorite(props.id));
             };
 
             return (
                 <button>
-                    <img src={isFavorite ? '/assets/icons/filled-heart.svg' : '/assets/icons/empty-heart.svg'}
+                    <img src={isFav ? '/assets/icons/filled-heart.svg' : '/assets/icons/empty-heart.svg'}
                          onClick={handleFavoriteClick}
                          alt='Heart icon'/>
                 </button>

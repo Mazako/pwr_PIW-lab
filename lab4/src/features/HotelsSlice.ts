@@ -1,9 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "../app/Store";
-import {HotelDTO, ShortHotelData} from "../firebase/types";
+import {HotelDTO} from "../firebase/types";
 
 interface HotelsSlice {
-    favoriteIds: any,
     editingHotel: HotelDTO | null,
     userEditions: {
         count: number
@@ -13,7 +12,6 @@ interface HotelsSlice {
 export type hotelEditField = 'name' | 'longDescription' | 'location' | 'price' | 'localCategory';
 
 const initState: HotelsSlice = {
-    favoriteIds: {},
     editingHotel: null,
     userEditions: {
         count: 0
@@ -24,13 +22,6 @@ const hotelsSlice = createSlice({
     name: "hotels",
     initialState: initState,
     reducers: {
-        addToFavorites: (state, action: PayloadAction<ShortHotelData>) => {
-            state.favoriteIds[action.payload.id] = action.payload;
-        },
-
-        removeFromFavorites: (state, action: PayloadAction<string>) => {
-            delete state.favoriteIds[action.payload];
-        },
 
         initEdit: (state, action: PayloadAction<HotelDTO>) => {
             state.editingHotel = action.payload;
@@ -58,14 +49,10 @@ const hotelsSlice = createSlice({
     }
 });
 
-export const allFavoriteSelector = (state: RootState): ShortHotelData[] => Object.values(state.hotels.favoriteIds) || [];
-export const isFavoriteSelector = (state: RootState, id: string) => state.hotels.favoriteIds[id] !== undefined;
 export const editedHotelSelector = (state: RootState) => state.hotels.editingHotel;
 export const userEditionsSelector = (state: RootState) => state.hotels.userEditions;
 
 export const {
-    addToFavorites,
-    removeFromFavorites,
     initEdit,
     clearEdited,
     updateEdited,
