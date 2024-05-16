@@ -14,6 +14,7 @@ import {
     where
 } from "firebase/firestore";
 import {chatRef, db, messagesRef} from "./firebase";
+import {getUserInfo, UserData} from "./UserQuerries";
 
 
 type UserType = 'user_1' | 'user_2';
@@ -27,7 +28,12 @@ export interface MessageDTO {
 export interface UserMessagesDTO {
     messages: MessageDTO[],
     isLastMessageAuthor: boolean,
-    isLastMessageSeen: false,
+    isLastMessageSeen: boolean,
+}
+
+export interface ChatUserInfoDto {
+    lastMessage: UserMessagesDTO,
+    user: UserData
 }
 
 
@@ -134,5 +140,57 @@ export const sendMessage = async (userId: string, selectedId: string, message: s
     } else {
         await updateDoc(ref, {user_1_unseen_count: Number(chat.data()?.user_1_unseen_count) + 1});
     }
+
+};
+
+export const getLastMessage = async (chatId: string,
+                                     userId: string,
+                                     user1Id: string,
+                                     user1Unseen: boolean,
+                                     user2Unseen: boolean): Promise<UserMessagesDTO | null> => {
+    const q = query(
+        messagesRef,
+        where('chat_id', '==', chatId),
+        orderBy('send_date', 'desc'),
+        limit(1)
+    );
+    const results = await getDocs(q);
+    if (results.empty) {
+        return null;
+    }
+
+    return {
+        messages: [{
+            message: results.docs[0].data().message,
+            date: results.docs[0].data().send_date.seconds,
+            author: results.docs[0].data().author === userId
+        }],
+        isLastMessageSeen: userId === user1Id ? user2Unseen : user1Unseen,
+        isLastMessageAuthor: results.docs[0].data().author === userId,
+    };
+
+};
+
+export const getChatHistoryUsers = async (currentUserId: string): Promise<ChatUserInfoDto[]> => {
+    const q = query(
+        chatRef,
+        or(where('user_1', '==', currentUserId), where('user_2', '==', currentUserId))
+    );
+    const chats = await getDocs(q);
+    if (chats.empty) {
+        return [];
+    }
+
+    return Promise.all(chats.docs.map(async chat => {
+        const user1Id = chat.data().user_1;
+        const user2Id = chat.data().user_2;
+        const user1Unseen = chat.data().user_1_unseen_count === 0;
+        const user2Unseen = chat.data().user_2_unseen_count === 0;
+
+        return {
+            user: await getUserInfo(currentUserId === user1Id ? user2Id : user1Id),
+            lastMessage: await getLastMessage(chat.id, currentUserId, user1Id, user1Unseen, user2Unseen)
+        } as ChatUserInfoDto;
+    })).then(res => res.filter(msg => msg.lastMessage !== null));
 
 };

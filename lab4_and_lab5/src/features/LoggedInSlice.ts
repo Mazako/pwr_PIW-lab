@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {behaviorPlugin} from "@testing-library/user-event/dist/keyboard/types";
 import {RootState} from "../app/Store";
 
 

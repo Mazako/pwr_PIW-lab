@@ -28,17 +28,17 @@
     font-weight: bold;
 }
 
-.messageSent {
+.otherMessageUnseen {
     font-weight: bold;
 }
 
-.messageUnseen {
+.myMessageSeen {
     display: list-item;
     list-style-image: url(/public/assets/icons/send.svg);
     list-style-position: inside;
 }
 
-.messageViewed {
+.myMessageUnseen {
     display: list-item;
     list-style-image: url(/public/assets/icons/send-check-fill.svg);
     list-style-position: inside;

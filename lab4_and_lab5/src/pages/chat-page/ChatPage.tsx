@@ -1,17 +1,24 @@
-import {FC, useEffect, useRef, useState} from "react";
+import {ChangeEvent, FC, useEffect, useRef, useState} from "react";
 
 import styles from "./ChatPage.module.css";
-import {ChatUserCard} from "../../components/chat-user-card/ChatUserCard";
+import {ChatUserCard, MessageStatus} from "../../components/chat-user-card/ChatUserCard";
 import {ChatMessage} from "../../components/chat-message/ChatMessage";
-import {getAllUsers, UserData} from "../../firebase/UserQuerries";
 import {getAuth} from "firebase/auth";
-import {getChat, getChatMessages, sendMessage, UserMessagesDTO} from "../../firebase/chatQuerries";
-import {doc, onSnapshot} from "firebase/firestore";
-import {db} from "../../firebase/firebase";
+import {
+    ChatUserInfoDto,
+    getChat,
+    getChatHistoryUsers,
+    getChatMessages,
+    sendMessage,
+    UserMessagesDTO
+} from "../../firebase/chatQuerries";
+import {doc, onSnapshot, or, query, where} from "firebase/firestore";
+import {chatRef, db} from "../../firebase/firebase";
 import moment from "moment/moment";
 import {useSelector} from "react-redux";
 import {loggedInSelector} from "../../features/LoggedInSlice";
-import { Header } from "../../components/header/Header";
+import {Header} from "../../components/header/Header";
+import {getAllOtherUsers, UserSearchData} from "../../firebase/UserQuerries";
 
 interface SelectedUser {
     id: string,
@@ -19,7 +26,7 @@ interface SelectedUser {
 }
 
 export const ChatPage: FC = () => {
-    const [users, setUsers] = useState<null | UserData[]>(null);
+    const [users, setUsers] = useState<null | ChatUserInfoDto[]>(null);
     const [selectedUser, setSelectedUser] = useState<SelectedUser | null>(null);
     const auth = getAuth();
     const [messages, setMessages] = useState<UserMessagesDTO | null>(null);
@@ -27,13 +34,27 @@ export const ChatPage: FC = () => {
     const [text, setText] = useState('');
     const loggedIn = useSelector(loggedInSelector);
 
+    //search bar
+    const [allUsersCache, setAllUsersCache] = useState<UserSearchData[]>([]);
+    const [userSearchText, setUserSearchText] = useState<string>('');
+    const [filteredUsers, setFilteredUsers] = useState<UserSearchData[]>([]);
+
     const endRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        getAllUsers()
-            .then(data => {
-                setUsers(data.filter(u => u.id !== auth.currentUser?.uid));
+        if (auth.currentUser?.uid) {
+            const uid = auth.currentUser.uid;
+            getChatHistoryUsers(uid).then(setUsers);
+            getAllOtherUsers(uid).then(setAllUsersCache);
+            const q = query(
+                chatRef,
+                or(where('user_1', '==', uid), where('user_2', '==', uid))
+            );
+
+            onSnapshot(q, () => {
+                getChatHistoryUsers(uid).then(setUsers);
             });
+        }
     }, [auth]);
 
     useEffect(() => {
@@ -78,6 +99,36 @@ export const ChatPage: FC = () => {
         setText('');
     };
 
+    const determineLastMessageStatus = (lastMessageAuthor: boolean, viewerSeen: boolean): MessageStatus => {
+        if (lastMessageAuthor) {
+            if (viewerSeen) {
+                return 'otherMessageSeen';
+            } else {
+                return 'otherMessageUnseen';
+            }
+        } else {
+            if (viewerSeen) {
+                return 'myMessageSeen';
+            } else {
+                return 'myMessageUnseen';
+            }
+        }
+    };
+
+    const handleTextChange = (e: ChangeEvent<HTMLInputElement>)  => {
+        const searched = e.target.value;
+        setUserSearchText(searched);
+        if (searched === '') {
+            setFilteredUsers(allUsersCache);
+        } else {
+            const filtered = allUsersCache.filter(user => {
+                let regExp = new RegExp(`.*${searched}.*`);
+                return user.firstName.match(regExp) || user.lastName.match(regExp);
+            });
+            setFilteredUsers(filtered);
+        }
+    }
+
     if (!loggedIn) {
         return <Header title={'Log in to use chat'}/>;
     }
@@ -90,18 +141,32 @@ export const ChatPage: FC = () => {
         <section className={styles.chatPage}>
             <section className={styles.left}>
                 <article className={styles.searchBar}>
-                    <img src="/assets/icons/search.svg" width={16} alt="search bar"/>
-                    <input type="text" placeholder="Search or start new chat" className={styles.search}/>
+                    <img src="/assets/icons/search.svg" width={16} alt="search bar"/>;
+                    {/*TODO https://react-select.com/home*/}
+                    <input type="text"
+                           placeholder="Search or start new chat"
+                           className={styles.search}
+                           onChange={handleTextChange}
+                           list='d-list'/>
+                    <datalist id='d-list' onClick={() => console.log('x')}>
+                        {
+                            filteredUsers.map(u => {
+                                return <option key={u.id} value={u.id}>{`${u.firstName} ${u.lastName}`}</option>;
+                            })
+                        }
+                    </datalist>
                 </article>
                 {
-                    users.map(user =>
-                        <ChatUserCard name={user.firstName + ' ' + user.lastName}
-                                      sendDate={''}
-                                      lastMessage={''}
-                                      status={"seen"}
+                    users
+                        .sort((user1, user2) => Number(user2.lastMessage.messages[0].date) - Number(user1.lastMessage.messages[0].date))
+                        .map(user =>
+                        <ChatUserCard name={user.user.firstName + ' ' + user.user.lastName}
+                                      sendDate={moment(Number(user.lastMessage.messages[0].date) * 1000).format('YYYY-MM-DD HH:mm')}
+                                      lastMessage={user.lastMessage.messages[0].message}
+                                      status={determineLastMessageStatus(user.lastMessage.isLastMessageAuthor, user.lastMessage.isLastMessageSeen) }
                                       onClick={() => setSelectedUser({
-                                          id: user.id,
-                                          name: user.firstName + ' ' + user.lastName
+                                          id: user.user.id,
+                                          name: user.user.firstName + ' ' + user.user.lastName
                                       })}
 
                         />
@@ -132,7 +197,9 @@ export const ChatPage: FC = () => {
                                placeholder="Enter your message here"
                                value={text}
                                onChange={e => setText(e.target.value)}
-                        onKeyDown={async e => {if (e.key === 'Enter') await handleSendMessage();}}/>
+                               onKeyDown={async e => {
+                                   if (e.key === 'Enter') await handleSendMessage();
+                               }}/>
                         <button onClick={handleSendMessage}>
                             <img src="/assets/icons/send-fill.svg" alt="send message icon" width={24} height={24}/>
                         </button>
