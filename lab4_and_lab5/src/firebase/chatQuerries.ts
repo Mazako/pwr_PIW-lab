@@ -159,14 +159,23 @@ export const getLastMessage = async (chatId: string,
         return null;
     }
 
+    const me: UserType = userId === user1Id ? 'user_1' : 'user_2';
+    const isLastMessageAuthor = results.docs[0].data().author === me;
+    let lastMessageSeen = false;
+    if (isLastMessageAuthor) {
+        lastMessageSeen = me === 'user_1' ? user2Unseen : user1Unseen;
+    } else {
+        lastMessageSeen = me === 'user_1' ? user1Unseen : user2Unseen;
+    }
+
     return {
         messages: [{
             message: results.docs[0].data().message,
             date: results.docs[0].data().send_date.seconds,
-            author: results.docs[0].data().author === userId
+            author: results.docs[0].data().author === me
         }],
-        isLastMessageSeen: userId === user1Id ? user2Unseen : user1Unseen,
-        isLastMessageAuthor: results.docs[0].data().author === userId,
+        isLastMessageSeen: lastMessageSeen,
+        isLastMessageAuthor: isLastMessageAuthor,
     };
 
 };

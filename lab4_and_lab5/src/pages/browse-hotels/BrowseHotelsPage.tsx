@@ -1,4 +1,4 @@
-import {FC, useEffect, useRef, useState} from "react";
+import {FC, useRef, useState} from "react";
 import {Header} from "../../components/header/Header";
 import {HotelBrowser} from "../../components/hotel-browser/HotelBrowser";
 import {useGetAllHotelsQuery} from "../../features/HotelApi";

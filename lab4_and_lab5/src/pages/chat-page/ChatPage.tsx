@@ -1,4 +1,4 @@
-import {ChangeEvent, FC, useEffect, useRef, useState} from "react";
+import {FC, useEffect, useRef, useState} from "react";
 
 import styles from "./ChatPage.module.css";
 import {ChatUserCard, MessageStatus} from "../../components/chat-user-card/ChatUserCard";
@@ -19,6 +19,7 @@ import {useSelector} from "react-redux";
 import {loggedInSelector} from "../../features/LoggedInSlice";
 import {Header} from "../../components/header/Header";
 import {getAllOtherUsers, UserSearchData} from "../../firebase/UserQuerries";
+import Select from "react-select";
 
 interface SelectedUser {
     id: string,
@@ -45,7 +46,7 @@ export const ChatPage: FC = () => {
         if (auth.currentUser?.uid) {
             const uid = auth.currentUser.uid;
             getChatHistoryUsers(uid).then(setUsers);
-            getAllOtherUsers(uid).then(setAllUsersCache);
+            getAllOtherUsers(uid).then(setAllUsersCache).then();
             const q = query(
                 chatRef,
                 or(where('user_1', '==', uid), where('user_2', '==', uid))
@@ -102,32 +103,25 @@ export const ChatPage: FC = () => {
     const determineLastMessageStatus = (lastMessageAuthor: boolean, viewerSeen: boolean): MessageStatus => {
         if (lastMessageAuthor) {
             if (viewerSeen) {
-                return 'otherMessageSeen';
-            } else {
-                return 'otherMessageUnseen';
-            }
-        } else {
-            if (viewerSeen) {
                 return 'myMessageSeen';
             } else {
                 return 'myMessageUnseen';
             }
+        } else {
+            if (viewerSeen) {
+                return 'otherMessageSeen';
+            } else {
+                return 'otherMessageUnseen';
+            }
         }
     };
 
-    const handleTextChange = (e: ChangeEvent<HTMLInputElement>)  => {
-        const searched = e.target.value;
-        setUserSearchText(searched);
-        if (searched === '') {
-            setFilteredUsers(allUsersCache);
-        } else {
-            const filtered = allUsersCache.filter(user => {
-                let regExp = new RegExp(`.*${searched}.*`);
-                return user.firstName.match(regExp) || user.lastName.match(regExp);
-            });
-            setFilteredUsers(filtered);
-        }
-    }
+    const handleUserSelect = (e: any) => {
+        setSelectedUser({
+            id: e.value,
+            name: e.label
+        });
+    };
 
     if (!loggedIn) {
         return <Header title={'Log in to use chat'}/>;
@@ -142,35 +136,31 @@ export const ChatPage: FC = () => {
             <section className={styles.left}>
                 <article className={styles.searchBar}>
                     <img src="/assets/icons/search.svg" width={16} alt="search bar"/>;
-                    {/*TODO https://react-select.com/home*/}
-                    <input type="text"
-                           placeholder="Search or start new chat"
-                           className={styles.search}
-                           onChange={handleTextChange}
-                           list='d-list'/>
-                    <datalist id='d-list' onClick={() => console.log('x')}>
-                        {
-                            filteredUsers.map(u => {
-                                return <option key={u.id} value={u.id}>{`${u.firstName} ${u.lastName}`}</option>;
-                            })
-                        }
-                    </datalist>
+                    <Select className={styles.search}
+                            placeholder="Search or start new chat"
+                            onChange={handleUserSelect}
+                            options={allUsersCache.map(user => {
+                                return {
+                                    value: user.id,
+                                    label: user.firstName + ' ' + user.lastName
+                                };
+                            })}/>
                 </article>
                 {
                     users
                         .sort((user1, user2) => Number(user2.lastMessage.messages[0].date) - Number(user1.lastMessage.messages[0].date))
                         .map(user =>
-                        <ChatUserCard name={user.user.firstName + ' ' + user.user.lastName}
-                                      sendDate={moment(Number(user.lastMessage.messages[0].date) * 1000).format('YYYY-MM-DD HH:mm')}
-                                      lastMessage={user.lastMessage.messages[0].message}
-                                      status={determineLastMessageStatus(user.lastMessage.isLastMessageAuthor, user.lastMessage.isLastMessageSeen) }
-                                      onClick={() => setSelectedUser({
-                                          id: user.user.id,
-                                          name: user.user.firstName + ' ' + user.user.lastName
-                                      })}
+                            <ChatUserCard name={user.user.firstName + ' ' + user.user.lastName}
+                                          sendDate={moment(Number(user.lastMessage.messages[0].date) * 1000).format('YYYY-MM-DD HH:mm')}
+                                          lastMessage={user.lastMessage.messages[0].message}
+                                          status={determineLastMessageStatus(user.lastMessage.isLastMessageAuthor, user.lastMessage.isLastMessageSeen)}
+                                          onClick={() => setSelectedUser({
+                                              id: user.user.id,
+                                              name: user.user.firstName + ' ' + user.user.lastName
+                                          })}
 
-                        />
-                    )
+                            />
+                        )
                 }
             </section>
             {

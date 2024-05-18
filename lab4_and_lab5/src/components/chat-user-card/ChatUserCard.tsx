@@ -1,6 +1,6 @@
 import {FC} from "react";
 
-import styles from './ChatUserCard.module.css'
+import styles from './ChatUserCard.module.css';
 
 export type MessageStatus = 'myMessageUnseen' | 'myMessageSeen' | 'otherMessageSeen' | 'otherMessageUnseen'
 
@@ -15,6 +15,7 @@ interface ChatUserCardProps {
 export const ChatUserCard: FC<ChatUserCardProps> = ({name, sendDate, lastMessage, status, onClick}) => {
 
     const getMessageStyle = () => {
+        console.log(status);
         if (status === 'myMessageUnseen') {
             return styles.myMessageUnseen;
         } else if (status === 'myMessageSeen') {

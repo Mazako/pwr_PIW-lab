@@ -1,4 +1,4 @@
-import styles from './NavBar.module.css'
+import styles from './NavBar.module.css';
 import React, {FC, useRef} from "react";
 import {NavLink} from "react-router-dom";
 import {AddModal} from "../add-modal/AddModal";

@@ -6,15 +6,15 @@ import {
     getDoc,
     getDocs,
     limit,
-    query,
-    updateDoc,
-    where,
     orderBy,
-    QueryConstraint
+    query,
+    QueryConstraint,
+    updateDoc,
+    where
 } from "firebase/firestore";
 import {getDownloadURL, ref} from "firebase/storage";
 import {db, hotelsRef, storage} from "./firebase";
-import {AddHotelData, HotelDTO, HotelFilterQueryParams, ShortHotelData, OrderEntry} from "./types";
+import {AddHotelData, HotelDTO, HotelFilterQueryParams, ShortHotelData} from "./types";
 
 
 export const toShortHotelData = (hotel: HotelDTO): ShortHotelData => {

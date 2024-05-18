@@ -2,12 +2,9 @@ import {FC, useEffect, useRef, useState} from "react";
 import {Navigate, useNavigate, useParams} from "react-router";
 import {useGetHotelByIdQuery} from "../../features/HotelApi";
 import {getAuth} from "firebase/auth";
-import {AppDispatch, RootState} from "../../app/Store";
+import {AppDispatch} from "../../app/Store";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    initEdit,
-    userEditionsSelector
-} from "../../features/HotelsSlice";
+import {initEdit, userEditionsSelector} from "../../features/HotelsSlice";
 import {removeHotel, toShortHotelData} from "../../firebase/HotelQuerries";
 import {ContactModal} from "../../components/contact-modal/ContactModal";
 import {EditModal} from "../../components/edit-modal/EditModal";

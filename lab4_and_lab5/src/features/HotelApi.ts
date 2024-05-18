@@ -1,4 +1,4 @@
-import {createApi, fakeBaseQuery} from '@reduxjs/toolkit/query/react'
+import {createApi, fakeBaseQuery} from '@reduxjs/toolkit/query/react';
 import {getHotelById, searchHotels} from "../firebase/HotelQuerries";
 import {HotelDTO, HotelFilterQueryParams} from "../firebase/types";
 

@@ -10,7 +10,6 @@ import {HotelPage} from "../pages/hotel-page/HotelPage";
 import {HeroPage} from "../pages/hero-page/HeroPage";
 import {LoginPage} from "../pages/login-page/LoginPage";
 import {RegisterPage} from "../pages/register-page/RegisterPage";
-import {enableMapSet} from 'immer'
 import {ChatPage} from "../pages/chat-page/ChatPage";
 
 const App: React.FC = () => {

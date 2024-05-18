@@ -1,4 +1,4 @@
-import {getAuth, getRedirectResult, onAuthStateChanged, signInWithEmailAndPassword} from "firebase/auth";
+import {getAuth, onAuthStateChanged, signInWithEmailAndPassword} from "firebase/auth";
 import {Header} from "../../components/header/Header";
 import styles from './LoginPage.module.css';
 import {useNavigate} from "react-router";

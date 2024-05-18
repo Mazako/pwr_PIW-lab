@@ -27,6 +27,7 @@
     border: none;
     padding: 16px;
     border-radius: var(--radius-medium);
+    width: 100%;
 }
 
 

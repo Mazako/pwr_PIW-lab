@@ -1,12 +1,18 @@
 import {FC, useEffect, useState} from "react";
 import {Header} from "../../components/header/Header";
 import styles from "./RegisterPage.module.css";
-import {createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, updateProfile} from "firebase/auth";
+import {
+    createUserWithEmailAndPassword,
+    getAuth,
+    onAuthStateChanged,
+    sendEmailVerification,
+    updateProfile
+} from "firebase/auth";
 import {useNavigate} from "react-router";
 import {validateRegistration} from "../../utils/validation";
 import {toast} from "react-toastify";
 import {containerIds} from "../../utils/ToastifyContainerIds";
-import { FirebaseError } from "firebase/app";
+import {FirebaseError} from "firebase/app";
 import {addUser} from "../../firebase/UserQuerries";
 
 export const RegisterPage: FC = () => {
